@@ -5,32 +5,53 @@ package com.crazy88.financialsample.support;
  */
 public class Transaction {
 
-    private String date;    //change to Date maybe
-    private long amount;
+    private int id;
+    private long accountId;
+    private int userId;
+    private String transactionName;
+    private long date;
+    private double amount;
 
-    public Transaction(){
-        this("01/01/2015", 1000);
+    public Transaction() {
+        this(0, 0, 0, "N/a", 0, 0.0);
     }
 
-    public Transaction(String date, long amount) {
+    public Transaction(int id, long aid, int userId, String name, long date, double amount) {
+        this.id = id;
+        this.accountId = aid;
+        this.userId = userId;
+        this.transactionName = name;
         this.date = date;
         this.amount = amount;
     }
 
-    public String getDate(){
+    public int getId(){
+        return id;
+    }
+    public void setId(int id) { this.id = id; }
+
+    public long getAccountId() { return this.accountId; }
+    public void setAccountId(long aid) { this.accountId = aid; }
+
+    public int getUserId() { return this.userId; }
+    public void setUserId(int id) { this.userId = id; }
+
+    public String getTransactionName() { return this.transactionName; }
+    public void setTransactionName(String name) { this.transactionName = name; }
+
+    public long getDate(){
         return date;
     }
-
-    public long getAmount(){
-        return amount;
-    }
-
-    public void setDate(String date){
+    public void setDate(long date){
         this.date = date;
     }
 
-    public void setAmount(long amount) {
+    public double getAmount(){
+        return amount;
+    }
+    public void setAmount(double amount) {
         this.amount = amount;
     }
+
 
 }
