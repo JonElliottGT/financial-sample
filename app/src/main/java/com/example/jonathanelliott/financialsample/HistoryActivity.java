@@ -10,19 +10,19 @@ import android.view.View;
 
 public class HistoryActivity extends ActionBarActivity {
 
-    private Intent savingActivity;
+    private Intent accountActivity;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_history);
 
-        savingActivity = new Intent(this, SavingActivity.class);
+        accountActivity = new Intent(this, AccountActivity.class);
 
         findViewById(R.id.backBt).setOnClickListener(
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        startActivity(savingActivity);
+                        startActivity(accountActivity);
                         finish();
                     }
                 }
