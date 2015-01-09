@@ -26,10 +26,6 @@
             android:label="@string/title_activity_login"
             android:windowSoftInputMode="adjustResize|stateVisible" >
         </activity>
-        <activity
-            android:name=".UserHomeActivity"
-            android:label="@string/title_activity_account" >
-        </activity>
     </application>
 
 </manifest>

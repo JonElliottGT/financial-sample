@@ -6,5 +6,6 @@
     <string name="action_settings">Settings</string>
     <string name="title_activity_login">LoginActivity</string>
     <string name="title_activity_account">AccountActivity</string>
+    <string name="title_activity_transfer_actiity">TransferActiity</string>
 
 </resources>
