@@ -1,4 +1,5 @@
 package com.crazy88.financialsample.support;
+import java.util.ArrayList;
 
 /**
  * Created by jonathanelliott on 1/8/15.
@@ -10,6 +11,8 @@ public class Account {
     private long accountAmount;
     private String accountType;
 
+    private ArrayList<Transaction> transactionHistory;
+
     public Account(){
        this("Savings", "00000001", 1000);
     }
@@ -18,6 +21,7 @@ public class Account {
         this.accountName = accountName;
         this.accountNumber = accountNumber;
         this.accountAmount = accountAmount;
+        transactionHistory = new ArrayList<Transaction>();
     }
 
     public String getAccountName(){
@@ -42,6 +46,10 @@ public class Account {
 
     public void setAccountAmount(int amount) {
         this.accountAmount = amount;
+    }
+
+    public void addTransaction(Transaction transaction) {
+        transactionHistory.add(transaction);
     }
 
 }

@@ -8,7 +8,7 @@ import java.util.ArrayList;
 public class User {
     private String username;
     private String password;
-    private ArrayList<Account> accountList = new ArrayList<Account>();
+    private ArrayList<Account> accountList;
 
     public User(){
        this("username", "password");
@@ -17,6 +17,7 @@ public class User {
     public User(String username, String password) {
         this.username = username;
         this.password = password;
+        accountList = new ArrayList<Account>();
     }
 
     public String getUsername(){
