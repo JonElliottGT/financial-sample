@@ -5,7 +5,7 @@ package com.crazy88.financialsample.support;
  */
 public class Transaction {
 
-    private int id;
+    private long id;
     private long accountId;
     private int userId;
     private String transactionName;
@@ -16,7 +16,7 @@ public class Transaction {
         this(0, 0, 0, "N/a", 0, 0.0);
     }
 
-    public Transaction(int id, long aid, int userId, String name, long date, double amount) {
+    public Transaction(long id, long aid, int userId, String name, long date, double amount) {
         this.id = id;
         this.accountId = aid;
         this.userId = userId;
@@ -25,10 +25,10 @@ public class Transaction {
         this.amount = amount;
     }
 
-    public int getId(){
+    public long getId(){
         return id;
     }
-    public void setId(int id) { this.id = id; }
+    public void setId(long id) { this.id = id; }
 
     public long getAccountId() { return this.accountId; }
     public void setAccountId(long aid) { this.accountId = aid; }
