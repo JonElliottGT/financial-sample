@@ -6,50 +6,46 @@ import java.util.ArrayList;
  */
 public class Account {
 
+    private long id;
+    private long userId;
     private String accountName;
-    private String accountNumber;
-    private long accountAmount;
-    private String accountType;
-
-    private ArrayList<Transaction> transactionHistory;
+    private double accountBalance;
 
     public Account(){
-       this("Savings", "00000001", 1000);
+        this(0, 0, "Savings", 1000);
     }
 
-    public Account(String accountName, String accountNumber, long accountAmount) {
-        this.accountName = accountName;
-        this.accountNumber = accountNumber;
-        this.accountAmount = accountAmount;
-        transactionHistory = new ArrayList<Transaction>();
+    public Account(String accountName, double accountBalance) {
+        this(0, 0, "Savings", 1000);
     }
+
+    public Account(long id, long userId, String accountName, double balance) {
+        this.id = id;
+        this.userId = userId;
+        this.accountName = accountName;
+        this.accountBalance = balance;
+    }
+
+    public long getId(){
+        return id;
+    }
+    public void setId(long id) { this.id = id; }
+
+    public long getUserId() { return userId; }
+    public void setUserId(long id) { this.userId = id; }
 
     public String getAccountName(){
         return accountName;
     }
-
-    public String getAccountNumber(){
-        return accountNumber;
-    }
-
-    public long getAccountAmount(){
-        return accountAmount;
-    }
-
     public void setAccountName(String accountName){
         this.accountName = accountName;
     }
 
-    public void setAccountNumber(String accountNumber) {
-        this.accountNumber = accountNumber;
+    public double getAccountBalance(){
+        return accountBalance;
     }
-
-    public void setAccountAmount(int amount) {
-        this.accountAmount = amount;
-    }
-
-    public void addTransaction(Transaction transaction) {
-        transactionHistory.add(transaction);
+    public void setAccountBalance(double amount) {
+        this.accountBalance = amount;
     }
 
 }
