@@ -11,14 +11,14 @@ public class TransferActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_transfer_actiity);
+        setContentView(R.layout.activity_transfer_activity);
     }
 
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_transfer_actiity, menu);
+        getMenuInflater().inflate(R.menu.menu_transfer_activity, menu);
         return true;
     }
 
