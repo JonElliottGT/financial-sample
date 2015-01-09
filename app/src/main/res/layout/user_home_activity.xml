@@ -23,10 +23,8 @@
         android:text="Logout"
         android:id="@+id/accountLogoutButton"
         android:layout_alignParentTop="true"
-        android:layout_toRightOf="@+id/accountsTextView"
-        android:layout_toEndOf="@+id/accountsTextView"
-        android:layout_marginLeft="178dp"
-        android:layout_marginStart="178dp" />
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
 
     <Button
         android:layout_width="wrap_content"
