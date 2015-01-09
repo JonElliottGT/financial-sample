@@ -4,51 +4,44 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.content.Intent;
+import android.view.View;
 
 
-public class LoginActivity extends ActionBarActivity {
+public class UserHomeActivity extends ActionBarActivity {
 
-    private Intent userHomeActivity;
     private Intent mainActivity;
+    private Intent transferActivity;
+    private Intent accountTypeActivity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
+        setContentView(R.layout.user_home_activity);
 
-        userHomeActivity = new Intent(this, UserHomeActivity.class);
         mainActivity = new Intent(this, MainActivity.class);
+        //transferActivity = new Intent(this, TransferActivity.class);
+        //accountTypeActivity = new Intent(this,
 
-        findViewById(R.id.loginButton).setOnClickListener(
+        findViewById(R.id.accountLogoutButton).setOnClickListener(
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
 
-                        attemptLogin();
+                        startActivity(mainActivity);
+                        finish();
 
                     }
                 });
-    }
 
-    /**
-     * Attempt Login checks the credentials in username and password.
-     * If they are correct then it logs in to the appropriate page.
-     */
-    private void attemptLogin(){
 
-        //check credentials here
-
-        startActivity(userHomeActivity);
-        finish();
     }
 
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_login, menu);
+        getMenuInflater().inflate(R.menu.menu_account, menu);
         return true;
     }
 

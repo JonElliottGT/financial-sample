@@ -12,20 +12,22 @@ import android.view.View;
 public class MainActivity extends ActionBarActivity {
 //A change
 
-    private Intent login;
+    private Intent loginActivity;
+    private Intent registerActivity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        login = new Intent(this, LoginActivity.class);
 
-        findViewById(R.id.loginButton).setOnClickListener(
+        loginActivity = new Intent(this, LoginActivity.class);
+        //registerActivity = new Intent(this, RegisterActivity.class);
+
+        findViewById(R.id.mainLoginButton).setOnClickListener(
                 new View.OnClickListener() {
-
                     @Override
                     public void onClick(View v) {
-                        startActivity(login);
+                        startActivity(loginActivity);
                         finish();
                     }
                 });
