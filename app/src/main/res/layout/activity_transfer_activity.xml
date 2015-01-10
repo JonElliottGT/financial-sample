@@ -80,7 +80,7 @@
         android:layout_height="wrap_content"
         android:inputType="numberDecimal"
         android:ems="10"
-        android:id="@+id/editText"
+        android:id="@+id/registerUsernameEditText"
         android:layout_below="@+id/spinner2"
         android:layout_alignLeft="@+id/spinner2"
         android:layout_alignStart="@+id/spinner2"
@@ -94,7 +94,7 @@
         android:id="@+id/textView6"
         android:textSize="20dp"
         android:layout_marginTop="39dp"
-        android:layout_below="@+id/editText"
+        android:layout_below="@+id/registerUsernameEditText"
         android:layout_alignLeft="@+id/textView5"
         android:layout_alignStart="@+id/textView5" />
 
@@ -103,12 +103,12 @@
         android:layout_height="wrap_content"
         android:inputType="textMultiLine"
         android:ems="10"
-        android:id="@+id/editText2"
+        android:id="@+id/registerPasswordEditText"
         android:layout_alignTop="@+id/textView6"
-        android:layout_alignLeft="@+id/editText"
-        android:layout_alignStart="@+id/editText"
-        android:layout_alignRight="@+id/editText"
-        android:layout_alignEnd="@+id/editText" />
+        android:layout_alignLeft="@+id/registerUsernameEditText"
+        android:layout_alignStart="@+id/registerUsernameEditText"
+        android:layout_alignRight="@+id/registerUsernameEditText"
+        android:layout_alignEnd="@+id/registerUsernameEditText" />
 
     <Button
         style="?android:attr/buttonStyleSmall"
@@ -116,7 +116,7 @@
         android:layout_height="wrap_content"
         android:text="Transfer"
         android:id="@+id/button"
-        android:layout_below="@+id/editText2"
+        android:layout_below="@+id/registerPasswordEditText"
         android:layout_toRightOf="@+id/textView2"
         android:layout_toEndOf="@+id/textView2"
         android:layout_marginTop="39dp" />

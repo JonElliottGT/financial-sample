@@ -1,11 +1,17 @@
 package com.example.jonathanelliott.financialsample;
 
 import android.content.Intent;
+import android.provider.ContactsContract;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
+import android.widget.TextView;
+
+import com.crazy88.financialsample.support.Account;
+import com.crazy88.financialsample.support.DatabaseHandler;
 
 
 public class AccountActivity extends ActionBarActivity {
@@ -13,13 +19,24 @@ public class AccountActivity extends ActionBarActivity {
     private Intent mainActivity;
     private Intent historyActivity;
 
+    private TextView textViewTitle;
+    private TextView textViewBalance;
+
+    private DatabaseHandler db;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_account);
 
+        //Set up the Intents
         mainActivity = new Intent(this, MainActivity.class);
+        historyActivity = new Intent(this, HistoryActivity.class);
 
+        //Set up the DB
+        db = new DatabaseHandler(this);
+
+        //LogOutButton
         findViewById(R.id.logOutBt).setOnClickListener(
                 new View.OnClickListener() {
                     @Override
@@ -30,8 +47,7 @@ public class AccountActivity extends ActionBarActivity {
                 }
         );
 
-        historyActivity = new Intent(this, HistoryActivity.class);
-
+        //History Activity
         findViewById(R.id.historyBt).setOnClickListener(
                 new View.OnClickListener() {
                     @Override
@@ -41,6 +57,20 @@ public class AccountActivity extends ActionBarActivity {
                     }
                 }
         );
+
+
+        //This is a bad, but This little bit of code gets the current account that is being used
+        //The account also comes with the user that owns the account
+        Intent intent = getIntent();
+        String accountName = intent.getExtras().getString("account_name");
+        Account currentAccount = db.getAccountByAccountName(accountName);
+
+        textViewTitle = (TextView) findViewById(R.id.savingTitle);
+        textViewTitle.setText(currentAccount.getAccountName());
+
+        textViewBalance = (TextView) findViewById(R.id.amountInput);
+        textViewBalance.setText("$"+Double.toString(currentAccount.getAccountBalance()));
+
     }
 
 

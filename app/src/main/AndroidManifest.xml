@@ -27,8 +27,25 @@
             android:windowSoftInputMode="adjustResize|stateVisible" >
         </activity>
         <activity
+            android:name=".RegisterActivity"
+            android:label="@string/title_activity_register"
+            android:windowSoftInputMode="adjustResize|stateVisible" >
+        </activity>
+        <activity
             android:name=".UserHomeActivity"
+            android:label="@string/title_user_home_activity" >
+        </activity>
+        <activity
+            android:name=".TransferActivity"
+            android:label="@string/title_activity_transfer_activity" >
+        </activity>
+        <activity
+            android:name=".AccountActivity"
             android:label="@string/title_activity_account" >
+        </activity>
+        <activity
+            android:name=".CreateAccountActivity"
+            android:label="@string/title_activity_create_account" >
         </activity>
     </application>
 

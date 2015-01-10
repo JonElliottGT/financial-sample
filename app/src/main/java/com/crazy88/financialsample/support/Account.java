@@ -8,20 +8,26 @@ public class Account {
 
     private long id;
     private long userId;
+    private String username;
     private String accountName;
     private double accountBalance;
 
     public Account(){
-        this(0, 0, "Savings", 1000);
+        this(0, 0, "username", "Savings", 1000);
     }
 
     public Account(String accountName, double accountBalance) {
-        this(0, 0, "Savings", 1000);
+        this(0, 0, "username", "Savings", 1000);
     }
 
-    public Account(long id, long userId, String accountName, double balance) {
+    public Account(String accountName, String username, double accountBalance) {
+        this(0, 0, accountName, username, accountBalance);
+    }
+
+    public Account(long id, long userId, String accountName, String username, double balance) {
         this.id = id;
         this.userId = userId;
+        this.username = username;
         this.accountName = accountName;
         this.accountBalance = balance;
     }
@@ -33,6 +39,9 @@ public class Account {
 
     public long getUserId() { return userId; }
     public void setUserId(long id) { this.userId = id; }
+
+    public String getUsername() { return this.username; }
+    public void setUsername(String username) { this.username = username; }
 
     public String getAccountName(){
         return accountName;

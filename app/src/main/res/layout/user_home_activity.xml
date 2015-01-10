@@ -11,7 +11,10 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Accounts"
-        android:id="@+id/accountsTextView"
+        android:id="@+id/homeTextView"
+        android:editable="false"
+        android:enabled="true"
+        android:layout_toLeftOf="@+id/homeTransfersButton"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
@@ -21,7 +24,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Logout"
-        android:id="@+id/accountLogoutButton"
+        android:id="@+id/homeLogoutButton"
         android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />
@@ -30,17 +33,28 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Transfers"
-        android:id="@+id/accountTransfersButton"
+        android:id="@+id/homeTransfersButton"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
 
     <ListView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/listView"
-        android:layout_below="@+id/accountLogoutButton"
+        android:id="@+id/homeListView"
+        android:layout_below="@+id/homeLogoutButton"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_above="@+id/accountTransfersButton"
+        android:layout_above="@+id/homeTransfersButton"
         android:choiceMode="singleChoice" />
+
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Add Account"
+        android:id="@+id/homeAddAccountButton"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 </RelativeLayout>

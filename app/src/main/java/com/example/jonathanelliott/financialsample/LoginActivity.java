@@ -6,28 +6,45 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.content.Intent;
-
+import android.widget.EditText;
+import com.crazy88.financialsample.support.User;
+import com.crazy88.financialsample.support.DatabaseHandler;
 
 public class LoginActivity extends ActionBarActivity {
 
     private Intent userHomeActivity;
     private Intent mainActivity;
 
-    @Override
+    private String username;
+    private String password;
+
+    private EditText editTextUsername;
+    private EditText editTextPassword;
+
+    private DatabaseHandler db;
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        //Setting up the Intents
         userHomeActivity = new Intent(this, UserHomeActivity.class);
         mainActivity = new Intent(this, MainActivity.class);
 
+        //Setting up the Database Handler (This is used to Check the credentials in the database)
+        db = new DatabaseHandler(this);
+
+        //Getting the edit text fields for user input
+        editTextUsername = (EditText) findViewById(R.id.loginUsernameEditText);
+        editTextPassword = (EditText) findViewById(R.id.loginPasswordEditText);
+
+        //setting up the login button which goes to private method attemptLogin()
         findViewById(R.id.loginButton).setOnClickListener(
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
 
                         attemptLogin();
-
                     }
                 });
     }
@@ -38,10 +55,21 @@ public class LoginActivity extends ActionBarActivity {
      */
     private void attemptLogin(){
 
-        //check credentials here
+        //Get the username and password from the text fields
+        username = editTextUsername.getText().toString();
+        password = editTextPassword.getText().toString();
 
-        startActivity(userHomeActivity);
-        finish();
+        //if they are not empty
+        if (username.length() > 0 && password.length() > 0) {
+            //get the user out of the database (returns null if username or password are non existent)
+            User u = db.getUserByUsernamePassword(username, password);
+            if (u != null) {
+                //putExtra is simply so we can see who is logged in.
+                //This is not the best way to do this. I should have made a session manager or something.
+                userHomeActivity.putExtra("username", u.getUsername());
+                startActivity(userHomeActivity);
+            }
+        }
     }
 
 
@@ -66,4 +94,5 @@ public class LoginActivity extends ActionBarActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
 }
