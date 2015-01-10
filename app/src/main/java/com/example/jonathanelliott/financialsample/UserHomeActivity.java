@@ -35,6 +35,8 @@ public class UserHomeActivity extends ActionBarActivity {
     private ListView listView;
     private List<Account> accountList;
 
+    private String username;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,7 +60,7 @@ public class UserHomeActivity extends ActionBarActivity {
 
         //This is a bad, but This little bit of code gets the current user that is logged in
         Intent intent = getIntent();
-        String username = intent.getExtras().getString("username");
+        username = intent.getExtras().getString("username");
         currentUser = db.getUserByUsername(username);
 
         //This code sets the Logout Button to go back to the Main Page
@@ -93,12 +95,9 @@ public class UserHomeActivity extends ActionBarActivity {
                 new View.OnClickListener() {
 
                     public void onClick(View v) {
-                        Intent intent = getIntent();
-                        String username = intent.getExtras().getString("username");
-                        if(username == null) {
-                            Log.d("What the hell is going on?", "What the fuck is this shit?");
-                        }
-                        User currentUser = db.getUserByUsername(username);
+                     //   Intent intent = getIntent();
+                     //   String username = intent.getExtras().getString("username");
+                     //   User currentUser = db.getUserByUsername(username);
                         if(currentUser != null) {
                             createAccountActivity.putExtra("username", currentUser.getUsername());
                             startActivity(createAccountActivity);
@@ -106,6 +105,7 @@ public class UserHomeActivity extends ActionBarActivity {
 
                     }
                 });
+
 
         //Set the text to the current user's username
         userAccountText.setText(username + "'s Accounts");
@@ -120,17 +120,21 @@ public class UserHomeActivity extends ActionBarActivity {
             for (Account a : accountList) {
                 stringList.add(a.getAccountName());
             }
+            //Array Adapter adapts an arraylist for use in an Android list view
             ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(
                     this,
                     android.R.layout.simple_list_item_1,
                     stringList);
 
+            //Set both the adapter (show the accounts).
+            //and set the onClickListener (when you click the account it goes to that account page)
             listView.setAdapter(arrayAdapter);
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                   Account selectedAccount = accountList.get(position);
-                   accountViewActivity.putExtra("account_name", selectedAccount.getAccountName());
+                    Account selectedAccount = accountList.get(position);
+                    String[] userAndAccount = {currentUser.getUsername(), selectedAccount.getAccountName() };
+                    accountViewActivity.putExtra("user_account", userAndAccount);
                    startActivity(accountViewActivity);
 
                 }

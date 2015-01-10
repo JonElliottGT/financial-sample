@@ -7,14 +7,31 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.crazy88.financialsample.support.Account;
+import com.crazy88.financialsample.support.DatabaseHandler;
+import com.crazy88.financialsample.support.User;
+
 
 public class HistoryActivity extends ActionBarActivity {
 
     private Intent accountActivity;
+    private String[] userAndAccount;
+    private DatabaseHandler db;
+    private Account currentAccount;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_history);
+
+        db = new DatabaseHandler(this);
+
+        //get the current account from the extra user_account that was sent by UserHomeActivity
+        //This contains username and password
+        Intent intent = getIntent();
+        userAndAccount = intent.getExtras().getStringArray("user_account");
+        currentAccount = db.getAccountByUsernameAndAccountName(userAndAccount[0], userAndAccount[1]);
 
         accountActivity = new Intent(this, AccountActivity.class);
 
@@ -22,8 +39,9 @@ public class HistoryActivity extends ActionBarActivity {
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+
+                        accountActivity.putExtra("user_account", userAndAccount);
                         startActivity(accountActivity);
-                        finish();
                     }
                 }
         );

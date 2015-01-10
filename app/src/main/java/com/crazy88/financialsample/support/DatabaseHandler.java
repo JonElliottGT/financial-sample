@@ -296,4 +296,24 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         return null;
     }
 
+    //Get an account from a specific user and a specific account
+    public Account getAccountByUsernameAndAccountName(String username, String accountName) {
+
+        String select = "SELECT * FROM " + TABLE_ACCOUNTS + " WHERE " + KEY_ACCOUNT_NAME + " = '" + accountName
+                + "' AND " + KEY_USERNAME + " = '" + username + "'";
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(select, null);
+
+        if (cursor.moveToFirst()) {
+            Account account = new Account(cursor.getLong(0),
+                    cursor.getLong(4), cursor.getString(1), cursor.getString(2), Double.parseDouble(cursor.getString(3)));
+            db.close();
+            return account;
+        }
+        db.close();
+        return null;
+
+    }
+
 }

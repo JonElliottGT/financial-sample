@@ -24,6 +24,9 @@ public class AccountActivity extends ActionBarActivity {
 
     private DatabaseHandler db;
 
+    private Account currentAccount;
+    private String[] userAndAccount;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,6 +38,12 @@ public class AccountActivity extends ActionBarActivity {
 
         //Set up the DB
         db = new DatabaseHandler(this);
+
+        //This is a bad, but This little bit of code gets the current account that is being used
+        //The account also comes with the user that owns the account (since account stores username)
+        Intent intent = getIntent();
+        userAndAccount = intent.getExtras().getStringArray("user_account");
+        currentAccount = db.getAccountByUsernameAndAccountName(userAndAccount[0], userAndAccount[1]);
 
         //LogOutButton
         findViewById(R.id.logOutBt).setOnClickListener(
@@ -52,18 +61,11 @@ public class AccountActivity extends ActionBarActivity {
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        historyActivity.putExtra("user_account", userAndAccount);
                         startActivity(historyActivity);
-                        finish();
                     }
                 }
         );
-
-
-        //This is a bad, but This little bit of code gets the current account that is being used
-        //The account also comes with the user that owns the account
-        Intent intent = getIntent();
-        String accountName = intent.getExtras().getString("account_name");
-        Account currentAccount = db.getAccountByAccountName(accountName);
 
         textViewTitle = (TextView) findViewById(R.id.savingTitle);
         textViewTitle.setText(currentAccount.getAccountName());
