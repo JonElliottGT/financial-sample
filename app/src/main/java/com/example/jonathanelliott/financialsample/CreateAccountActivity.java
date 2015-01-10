@@ -25,7 +25,6 @@ public class CreateAccountActivity extends ActionBarActivity {
     private DatabaseHandler db;
 
     private Intent userHomeActivity;
-    private Intent loginActivity;
 
     private User currentUser;
 
@@ -35,7 +34,6 @@ public class CreateAccountActivity extends ActionBarActivity {
         setContentView(R.layout.activity_create_account);
 
         //setting up Intents
-        loginActivity = new Intent(this, LoginActivity.class);
         userHomeActivity = new Intent(this, UserHomeActivity.class);
 
         //setting up edit text inputs
@@ -73,10 +71,12 @@ public class CreateAccountActivity extends ActionBarActivity {
             String username = currentUser.getUsername();
 
             Account account = new Account(accountName, username, accountBalance);
-            db.addAccount(account);
+            if(db.checkAccount(username, accountName)) {
+                db.addAccount(account);
 
-            userHomeActivity.putExtra("username", username);
-            startActivity(userHomeActivity);
+                userHomeActivity.putExtra("username", username);
+                startActivity(userHomeActivity);
+            }
 
         }
 

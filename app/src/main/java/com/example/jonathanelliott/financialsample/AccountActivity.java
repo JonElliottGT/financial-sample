@@ -16,6 +16,7 @@ import com.crazy88.financialsample.support.DatabaseHandler;
 
 public class AccountActivity extends ActionBarActivity {
 
+    //Intents used to go to the main and history activity
     private Intent mainActivity;
     private Intent historyActivity;
 
@@ -26,6 +27,7 @@ public class AccountActivity extends ActionBarActivity {
 
     private Account currentAccount;
     private String[] userAndAccount;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

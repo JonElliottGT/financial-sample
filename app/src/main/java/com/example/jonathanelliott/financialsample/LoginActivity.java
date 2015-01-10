@@ -13,7 +13,6 @@ import com.crazy88.financialsample.support.DatabaseHandler;
 public class LoginActivity extends ActionBarActivity {
 
     private Intent userHomeActivity;
-    private Intent mainActivity;
 
     private String username;
     private String password;
@@ -29,7 +28,6 @@ public class LoginActivity extends ActionBarActivity {
 
         //Setting up the Intents
         userHomeActivity = new Intent(this, UserHomeActivity.class);
-        mainActivity = new Intent(this, MainActivity.class);
 
         //Setting up the Database Handler (This is used to Check the credentials in the database)
         db = new DatabaseHandler(this);

@@ -325,9 +325,9 @@ public class DatabaseHandler extends SQLiteOpenHelper {
      */
     public boolean checkAccount(String username, String accountName) {
         SQLiteDatabase db = this.getWritableDatabase();
-        Cursor cursor = db.query(TABLE_ACCOUNTS, new String[] {KEY_ID,
-                        KEY_USERNAME, KEY_PASSWORD }, KEY_USERNAME + "=? AND " + KEY_ACCOUNT_NAME + "=?",
-                new String[] {String.valueOf(username), String.valueOf(accountName)}, null, null, null, null);
+        String select = "SELECT * FROM " + TABLE_ACCOUNTS + " WHERE " + KEY_USERNAME + " = '" + username
+                + "' AND " + KEY_ACCOUNT_NAME + " = '" + accountName + "'";
+        Cursor cursor = db.rawQuery(select, null);
         return !((cursor.getCount() != 0) && (cursor.moveToFirst()));
     }
 
