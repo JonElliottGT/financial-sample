@@ -14,7 +14,11 @@ import android.database.sqlite.SQLiteOpenHelper;
 /**
  * Created by jonathanelliott on 1/9/15.
  *
+ * Note: I try out several methods of getting the query in this
+ *
  * Tables:
+ *
+ * Version 3 Tables
  *
  * Users - username is unique
  * ----------------------------
@@ -35,7 +39,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class DatabaseHandler extends SQLiteOpenHelper {
 
     private static final String dbName = "userManager";
-    private static final int dbVersion = 2;
+    private static final int dbVersion = 3;
     //table names
     private static final String TABLE_USERS = "users";
     private static final String TABLE_ACCOUNTS = "accounts";
@@ -72,7 +76,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
             + KEY_ID + " INTEGER PRIMARY KEY,"
             + KEY_ACCOUNT_NAME + " TEXT,"
             + KEY_USERNAME + " TEXT,"
-            + KEY_BALANCE + " REAL,"
+            + KEY_BALANCE + " REAL"
             + ")";
     //Transactions Create Table
     private static final String CREATE_TRANSACTIONS_TABLE = "CREATE TABLE "
@@ -179,6 +183,22 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         return transactionId;
     }
 
+    public User getUser(long id) {
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = db.query(TABLE_USERS, new String[] {KEY_ID,
+        KEY_USERNAME, KEY_PASSWORD}, KEY_ID + "=?",
+                new String[] {String.valueOf(id) }, null, null, null, null);
+        if (cursor != null) {
+            cursor.moveToFirst();
+            User user = new User(Integer.parseInt(cursor.getString(0)),
+                    cursor.getString(1), cursor.getString(2));
+            return user;
+        }
+        db.close();
+        return null;
+    }
+
     /**
      * Check Username
      * Used in RegisterActivity to check if a username exists or not
@@ -191,13 +211,13 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                         KEY_USERNAME, KEY_PASSWORD }, KEY_USERNAME + "=?",
                 new String[] {String.valueOf(username)}, null, null, null,
                 null);
-        db.close();
 
         return !((cursor.getCount() != 0) && (cursor.moveToFirst()));
     }
 
     /**
      * Get User By Username
+    public User getUser(long id) {
      * Used whenever you want to get a specific user by Username
      * @param username - The username of the user you want
      * @return
@@ -275,6 +295,9 @@ public class DatabaseHandler extends SQLiteOpenHelper {
      * @param username - User who the account belongs to
      * @param accountName - the account name being searched for
      * @return - The Account or null if it does not exist
+     * ----------------------------------------
+     * | Id | AccountName | Username | Balance |
+     * ----------------------------------------
      */
     public Account getAccountByUsernameAndAccountName(String username, String accountName) {
 
@@ -285,8 +308,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         Cursor cursor = db.rawQuery(select, null);
 
         if (cursor.moveToFirst()) {
-            Account account = new Account(cursor.getLong(0),
-                    cursor.getLong(4), cursor.getString(1), cursor.getString(2), Double.parseDouble(cursor.getString(3)));
+            Account account = new Account(cursor.getLong(0), cursor.getString(1), cursor.getString(2), Double.parseDouble(cursor.getString(3)));
             db.close();
             return account;
         }
@@ -306,7 +328,6 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         Cursor cursor = db.query(TABLE_ACCOUNTS, new String[] {KEY_ID,
                         KEY_USERNAME, KEY_PASSWORD }, KEY_USERNAME + "=? AND " + KEY_ACCOUNT_NAME + "=?",
                 new String[] {String.valueOf(username), String.valueOf(accountName)}, null, null, null, null);
-        db.close();
         return !((cursor.getCount() != 0) && (cursor.moveToFirst()));
     }
 

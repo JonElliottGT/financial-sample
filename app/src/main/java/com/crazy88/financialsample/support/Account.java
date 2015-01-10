@@ -22,6 +22,10 @@ public class Account {
         this(0, 0, accountName, username, accountBalance);
     }
 
+    public Account(long id, String accountName, String username, double balance) {
+        this(id, 0, accountName, username, balance);
+    }
+
     public Account(long id, long userId, String accountName, String username, double balance) {
         this.id = id;
         this.userId = userId;
