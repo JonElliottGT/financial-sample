@@ -91,24 +91,33 @@ public class RegisterActivity extends ActionBarActivity {
             //won't register unless it passes the following criteria
             //cannot be empty, must be > 5, password and confirm must match, username must not exist in system
             //NOTE: New criteria could be added as it might not cover all edge cases
-            if (!TextUtils.isEmpty(password) && password.length() > 5 && password.equals(confirmPassword)) {
+            if (username.length() > 0 && password.length() > 0 && confirmPassword.length() > 0) {
+                if (password.length() > 5) {
+                    if (password.equals(confirmPassword)) {
+                        if (db.checkUsername(username)) {
 
-                if(db.checkUsername(username)) {
+                            //add the user to the database if it passes the criteria
+                            long id = db.addUser(new User(username, password));
+                            User u = db.getUser(id);
+                            u.setId(id);
 
-                    //add the user to the database if it passes the criteria
-                    long id = db.addUser(new User(username, password));
-                    User u = db.getUser(id);
-                    u.setId(id);
+                            //Go to the login activity
+                            startActivity(loginActivity);
+                            finish();
 
-                    //Go to the login activity
-                    startActivity(loginActivity);
-                    finish();
-
+                        } else {
+                            Toast.makeText(getApplicationContext(), "Username already exists", Toast.LENGTH_SHORT).show();
+                        }
+                    } else {
+                        Toast.makeText(getApplicationContext(), "Passwords do not match", Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    Toast.makeText(getApplicationContext(), "Password must be > 5 characters", Toast.LENGTH_SHORT).show();
                 }
+            } else {
+                Toast.makeText(getApplicationContext(), "Cannot have empty boxes", Toast.LENGTH_SHORT).show();
             }
 
-            //Very uninformative text popup (Could make more informative)
-            Toast.makeText(currentActivity, "Invalid Credentials", Toast.LENGTH_SHORT);
         }
 
     }

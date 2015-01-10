@@ -7,6 +7,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.content.Intent;
 import android.widget.EditText;
+import android.widget.Toast;
+
 import com.crazy88.financialsample.support.User;
 import com.crazy88.financialsample.support.DatabaseHandler;
 
@@ -66,7 +68,12 @@ public class LoginActivity extends ActionBarActivity {
                 //This is not the best way to do this. I should have made a session manager or something.
                 userHomeActivity.putExtra("username", u.getUsername());
                 startActivity(userHomeActivity);
+            } else {
+                Toast.makeText(getApplicationContext(), "Invalid Username or password", Toast.LENGTH_SHORT).show();
             }
+        } else {
+            Toast.makeText(getApplicationContext(), "Cannot have empty boxes", Toast.LENGTH_SHORT).show();
+
         }
     }
 

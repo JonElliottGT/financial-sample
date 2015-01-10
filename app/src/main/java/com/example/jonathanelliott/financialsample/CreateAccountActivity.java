@@ -8,6 +8,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
+
 import java.lang.Double;
 import com.crazy88.financialsample.support.DatabaseHandler;
 import com.crazy88.financialsample.support.Account;
@@ -76,8 +78,11 @@ public class CreateAccountActivity extends ActionBarActivity {
 
                 userHomeActivity.putExtra("username", username);
                 startActivity(userHomeActivity);
+            } else {
+                Toast.makeText(getApplicationContext(), "Account Name already exists", Toast.LENGTH_SHORT).show();
             }
-
+        } else {
+            Toast.makeText(getApplicationContext(), "Cannot have empty boxes", Toast.LENGTH_SHORT).show();
         }
 
     }
