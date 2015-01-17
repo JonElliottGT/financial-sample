@@ -2,7 +2,6 @@ package com.example.jonathanelliott.financialsample;
 
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.content.Intent;
@@ -11,6 +10,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.AdapterView;
+import android.widget.Toast;
 
 import com.crazy88.financialsample.support.Account;
 import com.crazy88.financialsample.support.DatabaseHandler;
@@ -26,6 +26,7 @@ public class UserHomeActivity extends ActionBarActivity {
     private Intent transferActivity;
     private Intent createAccountActivity;
     private Intent accountViewActivity;
+    private Intent transactionActivity;
 
     private TextView userAccountText;
 
@@ -40,7 +41,7 @@ public class UserHomeActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.user_home_activity);
+        setContentView(R.layout.activity_user_home);
 
         //The Account Text at the top
         userAccountText =  (TextView) findViewById(R.id.homeTextView);
@@ -54,6 +55,7 @@ public class UserHomeActivity extends ActionBarActivity {
         transferActivity = new Intent(this, TransferActivity.class);
         createAccountActivity = new Intent(this, CreateAccountActivity.class);
         accountViewActivity = new Intent(this, AccountActivity.class);
+        transactionActivity = new Intent(this, CreateTransactionActivity.class);
 
         //Set up the database Handler (This is only used once to get the current user).
         db = new DatabaseHandler(this);
@@ -68,11 +70,9 @@ public class UserHomeActivity extends ActionBarActivity {
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        // Closing all the Activities
-                        mainActivity.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
-                        // Add new Flag to start new Activity
-                        mainActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        // set the new task and clear flags
+                        mainActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
 
                         startActivity(mainActivity);
 
@@ -84,8 +84,10 @@ public class UserHomeActivity extends ActionBarActivity {
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-
-                        startActivity(transferActivity);
+                        long id = currentUser.getId();
+                        Toast.makeText(getApplicationContext(), Long.toString(id), Toast.LENGTH_SHORT).show();
+                        //transferActivity.putExtra("username", currentUser.getUsername());
+                        //startActivity(transferActivity);
 
                     }
                 });
@@ -95,13 +97,21 @@ public class UserHomeActivity extends ActionBarActivity {
                 new View.OnClickListener() {
 
                     public void onClick(View v) {
-                     //   Intent intent = getIntent();
-                     //   String username = intent.getExtras().getString("username");
-                     //   User currentUser = db.getUserByUsername(username);
-                        if(currentUser != null) {
-                            createAccountActivity.putExtra("username", currentUser.getUsername());
-                            startActivity(createAccountActivity);
-                        }
+
+                        createAccountActivity.putExtra("username", currentUser.getUsername());
+                        startActivity(createAccountActivity);
+
+                    }
+                });
+
+        findViewById(R.id.transactionButton).setOnClickListener(
+                new View.OnClickListener() {
+
+                    public void onClick(View v) {
+
+
+                        transactionActivity.putExtra("username", currentUser.getUsername());
+                        startActivity(transactionActivity);
 
                     }
                 });

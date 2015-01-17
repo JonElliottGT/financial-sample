@@ -4,14 +4,32 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.EditText;
+
+import com.crazy88.financialsample.support.DatabaseHandler;
+import com.crazy88.financialsample.support.Transaction;
 
 
 public class TransferActivity extends ActionBarActivity {
 
+    private String transferName;
+    private String transferAmount;
+
+    private EditText editTransferName;
+    private EditText editTransferAmount;
+
+    private DatabaseHandler db;
+
+    private Transaction fromTransaction;
+    private Transaction toTransaction;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_transfer_activity);
+        setContentView(R.layout.activity_transfer);
+
+
     }
 
 

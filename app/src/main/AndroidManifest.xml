@@ -37,7 +37,7 @@
         </activity>
         <activity
             android:name=".TransferActivity"
-            android:label="@string/title_activity_transfer_activity" >
+            android:label="@string/title_activity_transfer" >
         </activity>
         <activity
             android:name=".AccountActivity"
@@ -50,6 +50,10 @@
         <activity
             android:name=".CreateAccountActivity"
             android:label="@string/title_activity_create_account" >
+        </activity>
+        <activity
+            android:name=".CreateTransactionActivity"
+            android:label="@string/title_activity_withdrawal_deposit_transaction" >
         </activity>
     </application>
 

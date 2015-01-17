@@ -14,20 +14,18 @@
         android:id="@+id/registerButton"
         android:layout_gravity="bottom|center|top"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="123dp" />
+        android:layout_centerHorizontal="true" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Register"
         android:id="@+id/RegisterText"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="46dp"
         android:textColor="#ff000000"
         android:textSize="20dp"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -35,10 +33,10 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Username"
         android:id="@+id/userText"
-        android:layout_marginTop="44dp"
+        android:layout_marginTop="54dp"
         android:layout_below="@+id/RegisterText"
-        android:layout_alignRight="@+id/passwordText"
-        android:layout_alignEnd="@+id/passwordText" />
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -46,32 +44,19 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Password"
         android:id="@+id/passwordText"
-        android:layout_below="@+id/userText"
-        android:layout_alignRight="@+id/textView2"
-        android:layout_alignEnd="@+id/textView2"
-        android:layout_marginTop="38dp" />
+        android:layout_below="@+id/registerUsernameEditText"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/registerUsernameEditText"
-        android:layout_alignBottom="@+id/userText"
+        android:layout_below="@+id/userText"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignTop="@+id/userText"
-        android:layout_toRightOf="@+id/userText"
-        android:layout_toEndOf="@+id/userText" />
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/registerPasswordEditText"
-        android:layout_alignRight="@+id/registerUsernameEditText"
-        android:layout_alignEnd="@+id/registerUsernameEditText"
-        android:layout_alignTop="@+id/passwordText"
-        android:layout_toEndOf="@+id/userText"
-        android:layout_alignBottom="@+id/passwordText"
-        android:layout_toRightOf="@+id/userText" />
+        android:layout_alignParentEnd="true" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -79,18 +64,31 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="ConfirmPassword"
         android:id="@+id/textView2"
-        android:layout_below="@+id/passwordText"
+        android:layout_below="@+id/registerPasswordEditText"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="38dp" />
+        android:layout_alignParentStart="true" />
 
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:inputType="textPassword"
+        android:ems="10"
+        android:id="@+id/registerPasswordEditText"
+        android:layout_below="@+id/passwordText"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignRight="@+id/registerUsernameEditText"
+        android:layout_alignEnd="@+id/registerUsernameEditText" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPassword"
+        android:ems="10"
         android:id="@+id/registerConfirmPassEditText"
-        android:layout_alignBottom="@+id/textView2"
-        android:layout_alignLeft="@+id/registerPasswordEditText"
-        android:layout_alignStart="@+id/registerPasswordEditText"
+        android:layout_below="@+id/textView2"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />
 

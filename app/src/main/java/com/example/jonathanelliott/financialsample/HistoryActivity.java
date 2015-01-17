@@ -6,10 +6,20 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.DatePicker;
+import android.widget.ListView;
 
 import com.crazy88.financialsample.support.Account;
 import com.crazy88.financialsample.support.DatabaseHandler;
+import com.crazy88.financialsample.support.Transaction;
 import com.crazy88.financialsample.support.User;
+
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 
 public class HistoryActivity extends ActionBarActivity {
@@ -19,6 +29,10 @@ public class HistoryActivity extends ActionBarActivity {
     private DatabaseHandler db;
     private Account currentAccount;
 
+    private DatePicker datePicker;
+
+    private List<Transaction> transactionList;
+    private ListView listView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,19 +46,37 @@ public class HistoryActivity extends ActionBarActivity {
         Intent intent = getIntent();
         userAndAccount = intent.getExtras().getStringArray("user_account");
         currentAccount = db.getAccountByUsernameAndAccountName(userAndAccount[0], userAndAccount[1]);
+        transactionList = db.getAllTransactionsForUserAndAccount(userAndAccount[0], userAndAccount[1]);
+        listView = (ListView) findViewById(R.id.historyView);
+        if(!transactionList.isEmpty()) {
+            //Create the string list (used to populate the listview)
+            SimpleDateFormat iso8601Format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            Date d = new Date();
+            List<String> stringList = new ArrayList<>();
+            for (Transaction t : transactionList) {
+                try{
+                    d = iso8601Format.parse(Long.toString(t.getDate()));
+                } catch(Exception e) {
+
+                }
+                stringList.add("Memo: " + t.getTransactionName() + " " + t.getType() + " $" + t.getAmount() + " " + d);
+            }
+            //Array Adapter adapts an arraylist for use in an Android list view
+            ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(
+                    this,
+                    android.R.layout.simple_list_item_1,
+                    stringList);
+
+            //Set both the adapter (show the accounts).
+            //and set the onClickListener (when you click the account it goes to that account page)
+            listView.setAdapter(arrayAdapter);
+        }
+
+
 
         accountActivity = new Intent(this, AccountActivity.class);
 
-        findViewById(R.id.backBt).setOnClickListener(
-                new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
 
-                        accountActivity.putExtra("user_account", userAndAccount);
-                        startActivity(accountActivity);
-                    }
-                }
-        );
     }
 
 

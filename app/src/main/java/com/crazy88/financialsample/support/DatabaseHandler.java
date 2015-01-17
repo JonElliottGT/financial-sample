@@ -18,7 +18,7 @@ import android.database.sqlite.SQLiteOpenHelper;
  *
  * Tables:
  *
- * Version 3 Tables
+ * Version 6 Tables
  *
  * Users - username is unique
  * ----------------------------
@@ -29,17 +29,16 @@ import android.database.sqlite.SQLiteOpenHelper;
  * | Id | AccountName | Username | Balance |
  * ----------------------------------------
  * Transactions - transactionName + username + accountName is unique
- * ----------------------------------------------------------------------------
- * | Id | TransactionName | Username | AccountName | TransactionAccount | Date |
- * ----------------------------------------------------------------------------
- *
- *
+ * Note: Added Account Type (Withdrawal, Deposit)
+ * -----------------------------------------------------------------------------------
+ * | Id | TransactionName | Username | AccountName | TransactionAccount | Date | Type |
+ * -----------------------------------------------------------------------------------
  *
  */
 public class DatabaseHandler extends SQLiteOpenHelper {
 
     private static final String dbName = "userManager";
-    private static final int dbVersion = 3;
+    private static final int dbVersion = 6;
     //table names
     private static final String TABLE_USERS = "users";
     private static final String TABLE_ACCOUNTS = "accounts";
@@ -62,6 +61,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     private static final String KEY_ACCOUNT_ID = "account_id";
     private static final String KEY_TRANSACTION_AMOUNT = "transaction_amount";
     private static final String KEY_DATE = "date";
+    private static final String KEY_TRANSACTION_TYPE = "transaction_type";
 
     //Create Table Strings
     //Users Create Table
@@ -86,7 +86,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
             + KEY_USERNAME + " TEXT,"
             + KEY_ACCOUNT_NAME + " TEXT,"
             + KEY_TRANSACTION_AMOUNT + " REAL,"
-            + KEY_DATE + " TEXT" + ")";
+            + KEY_DATE + " TEXT,"
+            + KEY_TRANSACTION_TYPE + " TEXT" + ")";
 
 
     public DatabaseHandler(Context context) {
@@ -176,6 +177,9 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         values.put(KEY_ACCOUNT_NAME, t.getAccountName());
         values.put(KEY_TRANSACTION_AMOUNT, t.getAmount());
         values.put(KEY_DATE, t.getDate());
+        values.put(KEY_TRANSACTION_TYPE, t.getType());
+
+        Log.d("HEY! LOOK!", t.getTransactionName() + " " + t.getUsername() + t.getAccountName());
 
         long transactionId = db.insert(TABLE_TRANSACTIONS, null, values);
         db.close();
@@ -212,7 +216,9 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 new String[] {String.valueOf(username)}, null, null, null,
                 null);
 
-        return !((cursor.getCount() != 0) && (cursor.moveToFirst()));
+        boolean truth =  !((cursor.getCount() != 0) && (cursor.moveToFirst()));
+        db.close();
+        return truth;
     }
 
     /**
@@ -295,9 +301,6 @@ public class DatabaseHandler extends SQLiteOpenHelper {
      * @param username - User who the account belongs to
      * @param accountName - the account name being searched for
      * @return - The Account or null if it does not exist
-     * ----------------------------------------
-     * | Id | AccountName | Username | Balance |
-     * ----------------------------------------
      */
     public Account getAccountByUsernameAndAccountName(String username, String accountName) {
 
@@ -318,18 +321,98 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     }
 
     /**
-     * Untested
+     * Check the account if it already exists
      * @param username
      * @param accountName
      * @return
      */
     public boolean checkAccount(String username, String accountName) {
-        SQLiteDatabase db = this.getWritableDatabase();
+        SQLiteDatabase db = this.getReadableDatabase();
         String select = "SELECT * FROM " + TABLE_ACCOUNTS + " WHERE " + KEY_USERNAME + " = '" + username
                 + "' AND " + KEY_ACCOUNT_NAME + " = '" + accountName + "'";
         Cursor cursor = db.rawQuery(select, null);
-        return !((cursor.getCount() != 0) && (cursor.moveToFirst()));
+        boolean truth =  !((cursor.getCount() != 0) && (cursor.moveToFirst()));
+        db.close();
+        return truth;
     }
 
+
+    /**
+     * Get all transactions for a user and account
+     * @param username
+     * @param accountName
+     * @return
+     */
+    public List<Transaction> getAllTransactionsForUserAndAccount(String username, String accountName) {
+        List<Transaction> transactionList = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        String select = "SELECT * FROM " + TABLE_TRANSACTIONS + " WHERE " + KEY_USERNAME + " = '" + username
+                + "' AND " + KEY_ACCOUNT_NAME + " = '" + accountName + "'";
+
+        Log.d("HEY! LISTEN!", select);
+
+        Cursor c = db.rawQuery(select, null);
+        if(c.moveToFirst()) {
+            do {
+
+                Transaction transaction = new Transaction();
+                transaction.setId(c.getLong(c.getColumnIndex(KEY_ID)));
+                transaction.setTransactionName(c.getString(c.getColumnIndex(KEY_TRANSACTION_NAME)));
+                transaction.setUsername(c.getString(c.getColumnIndex(KEY_USERNAME)));
+                transaction.setAccountName(c.getString(c.getColumnIndex(KEY_ACCOUNT_NAME)));
+                transaction.setAmount(c.getDouble(c.getColumnIndex(KEY_TRANSACTION_AMOUNT)));
+                transaction.setDate(c.getLong(c.getColumnIndex(KEY_DATE)));
+                transaction.setType(c.getString(c.getColumnIndex(KEY_TRANSACTION_TYPE)));
+                transactionList.add(transaction);
+
+            } while (c.moveToNext());
+        }
+
+        db.close();
+        return transactionList;
+    }
+
+    /**
+     * Get all transactions from a certain date
+     * @param username
+     * @param accountName
+     * @param date
+     * @return
+     */
+    public List<Transaction> getTransactionsByDate(String username, String accountName, String date) {
+        List<Transaction> transactionList = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        String select = "SELECT * FROM " + TABLE_TRANSACTIONS + " WHERE " + KEY_USERNAME + " = '" + username
+                + "' AND " + KEY_ACCOUNT_NAME + " = '" + accountName + "' AND " + KEY_DATE + " = '" + date + "'";
+        Cursor c = db.rawQuery(select, null);
+        if(c.moveToFirst()) {
+            do {
+
+                Transaction transaction = new Transaction();
+                transaction.setId(c.getLong(c.getColumnIndex(KEY_ID)));
+                transaction.setTransactionName(c.getString(c.getColumnIndex(KEY_TRANSACTION_NAME)));
+                transaction.setUsername(c.getString(c.getColumnIndex(KEY_USERNAME)));
+                transaction.setAccountName(c.getString(c.getColumnIndex(KEY_ACCOUNT_NAME)));
+                transaction.setAmount(c.getDouble(c.getColumnIndex(KEY_TRANSACTION_AMOUNT)));
+                transaction.setDate(c.getLong(c.getColumnIndex(KEY_DATE)));
+                transaction.setType(c.getString(c.getColumnIndex(KEY_TRANSACTION_TYPE)));
+                transactionList.add(transaction);
+
+            } while (c.moveToNext());
+        }
+
+        db.close();
+        return transactionList;
+
+    }
+
+    public void updateAccountBalance(Account a) {
+        String update = "UPDATE " + TABLE_ACCOUNTS + " SET " + KEY_BALANCE + " = '" + a.getAccountBalance() +
+                "' WHERE " + KEY_ID + " = '" + a.getId() + "'";
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL(update);
+        db.close();
+    }
 
 }

@@ -64,4 +64,14 @@ public class Account {
         this.accountBalance = amount;
     }
 
+    //deposit method
+    public void deposit(double deposit) {
+        this.accountBalance += deposit;
+    }
+
+    //withdrawal method
+    public void withdrawal(double withdraw) {
+        this.accountBalance -= withdraw;
+    }
+
 }

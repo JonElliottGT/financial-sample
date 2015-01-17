@@ -12,5 +12,6 @@
     <string name="title_activity_transfer_activity">TransferActivity</string>
     <string name="title_user_home_activity">UserHomeActivity</string>
     <string name="title_activity_create_account">CreateAccountActivity</string>
+    <string name="title_activity_withdrawal_deposit_transaction">WithdrawalDepositTransaction</string>
 
 </resources>

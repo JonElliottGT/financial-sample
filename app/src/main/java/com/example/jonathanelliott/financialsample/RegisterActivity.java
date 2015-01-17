@@ -7,11 +7,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
-import android.text.TextUtils;
 import android.widget.Toast;
 import android.app.Activity;
 import android.content.Intent;
-import android.util.Log;
 
 
 public class RegisterActivity extends ActionBarActivity {

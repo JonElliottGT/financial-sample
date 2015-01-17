@@ -13,12 +13,13 @@ public class Transaction {
     private String transactionName;
     private long date;
     private double amount;
+    private String type;
 
     public Transaction() {
-        this(0, 0, 0, "name", "username", "account", 0, 0.0);
+        this(0, 0, 0, "name", "username", "account", 0, 0.0, "Withdrawal");
     }
 
-    public Transaction(long id, long aid, int userId, String name, String username, String accountName, long date, double amount) {
+    public Transaction(long id, long aid, int userId, String name, String username, String accountName, long date, double amount, String type) {
         this.id = id;
         this.accountId = aid;
         this.userId = userId;
@@ -27,6 +28,7 @@ public class Transaction {
         this.accountName = accountName;
         this.date = date;
         this.amount = amount;
+        this.type = type;
     }
 
     public long getId(){
@@ -62,6 +64,9 @@ public class Transaction {
     public void setAmount(double amount) {
         this.amount = amount;
     }
+
+    public String getType() { return type; }
+    public void setType(String type) { this.type = type; }
 
 
 }
