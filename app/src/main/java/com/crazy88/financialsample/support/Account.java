@@ -12,7 +12,7 @@ public class Account {
     private long userId;
     private String username;
     private String accountName;
-    private double accountBalance;
+    private double balance;
 
     public Account(){
         this(0, 0, "username", "Savings", 1000);
@@ -31,7 +31,7 @@ public class Account {
         this.userId = userId;
         this.username = username;
         this.accountName = accountName;
-        this.accountBalance = balance;
+        this.balance = balance;
     }
 
     //Getter and Setter for ID
@@ -58,20 +58,22 @@ public class Account {
 
     //Getter and setter for accountBalance
     public double getAccountBalance(){
-        return accountBalance;
+        return balance;
     }
     public void setAccountBalance(double amount) {
-        this.accountBalance = amount;
+        this.balance = amount;
     }
 
     //deposit method
     public void deposit(double deposit) {
-        this.accountBalance += deposit;
+        this.balance += deposit;
     }
 
     //withdrawal method
     public void withdrawal(double withdraw) {
-        this.accountBalance -= withdraw;
+        this.balance -= withdraw;
     }
+
+    public String toString(){ return accountName + " Balance: " + balance; }
 
 }

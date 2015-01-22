@@ -10,7 +10,7 @@
         android:layout_width="385dp"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Savings"
+        android:text="Account Name"
         android:textSize="35sp"
         android:gravity="center"
         android:id="@+id/savingTitle"
@@ -25,15 +25,6 @@
         android:textSize="20sp"
         android:id="@+id/accNoLabel"
         android:layout_marginTop="150dp"
-        android:layout_marginLeft="25dp" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Account Type:"
-        android:textSize="20sp"
-        android:id="@+id/accTypeLabel"
-        android:layout_marginTop="200dp"
         android:layout_marginLeft="25dp" />
 
     <TextView
@@ -57,16 +48,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Save"
-        android:textSize="20sp"
-        android:id="@+id/accTypeInput"
-        android:layout_marginLeft="200dp"
-        android:layout_marginTop="200dp" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="$10,000,000.00"
+        android:text="balance"
         android:textSize="20sp"
         android:id="@+id/amountInput"
         android:layout_marginTop="250dp"

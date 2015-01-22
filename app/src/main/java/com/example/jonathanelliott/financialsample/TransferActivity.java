@@ -9,7 +9,12 @@ import android.widget.EditText;
 import com.crazy88.financialsample.support.DatabaseHandler;
 import com.crazy88.financialsample.support.Transaction;
 
-
+/**
+ * This was a class we initially thought we might use, but was replaced with
+ * the CreateTransactionActivity
+ *
+ * Unimplemented
+ */
 public class TransferActivity extends ActionBarActivity {
 
     private String transferName;

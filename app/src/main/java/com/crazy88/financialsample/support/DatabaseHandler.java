@@ -14,7 +14,11 @@ import android.database.sqlite.SQLiteOpenHelper;
 /**
  * Created by jonathanelliott on 1/9/15.
  *
- * Note: I try out several methods of getting the query in this
+ * Note: I try out several methods of getting the query in this, sorry if it is confusing
+ *
+ * !!!!!IMPORTANT NOTE!!!!!
+ * THIS IS NOTE PROTECTED FROM SQL INJECTION (WARNING NOT PROTECTED FROM SQL INJECTION)
+ * !!!!!IMPORTANT NOTE!!!!!
  *
  * Tables:
  *
@@ -179,14 +183,17 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         values.put(KEY_DATE, t.getDate());
         values.put(KEY_TRANSACTION_TYPE, t.getType());
 
-        Log.d("HEY! LOOK!", t.getTransactionName() + " " + t.getUsername() + t.getAccountName());
-
         long transactionId = db.insert(TABLE_TRANSACTIONS, null, values);
         db.close();
 
         return transactionId;
     }
 
+    /**
+     * Get a specific user by User's Id
+     * @param id
+     * @return
+     */
     public User getUser(long id) {
         SQLiteDatabase db = this.getReadableDatabase();
 
@@ -406,6 +413,10 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
     }
 
+    /**
+     * Update method for the account and Balance
+     * @param a - The Account to be updated
+     */
     public void updateAccountBalance(Account a) {
         String update = "UPDATE " + TABLE_ACCOUNTS + " SET " + KEY_BALANCE + " = '" + a.getAccountBalance() +
                 "' WHERE " + KEY_ID + " = '" + a.getId() + "'";

@@ -12,14 +12,14 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Withdrawal / Deposit"
         android:id="@+id/textView8"
-        android:layout_alignParentTop="true"
+        android:layout_below="@+id/transactionLogout"
         android:layout_centerHorizontal="true" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Transaction Name"
+        android:text="Memo"
         android:id="@+id/textView9"
         android:layout_below="@+id/textView8"
         android:layout_alignParentLeft="true"
@@ -29,7 +29,7 @@
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/wadTransNameEditText"
+        android:id="@+id/wadMemoEditText"
         android:layout_below="@+id/textView9"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
@@ -42,7 +42,7 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="Account"
         android:id="@+id/textView10"
-        android:layout_below="@+id/wadTransNameEditText"
+        android:layout_below="@+id/wadMemoEditText"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
@@ -50,13 +50,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/wadAccountSpinner"
-        android:layout_below="@+id/wadTransNameEditText"
-        android:layout_alignLeft="@+id/textView8"
-        android:layout_alignStart="@+id/textView8"
+        android:spinnerMode="dropdown"
+        android:background="#ffd4fffb"
+        android:layout_below="@+id/textView10"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:spinnerMode="dropdown"
-        android:background="#ffd4fffb" />
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -114,4 +114,14 @@
             android:id="@+id/depositRadio"
             android:checked="false" />
     </RadioGroup>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Logout"
+        android:id="@+id/transactionLogout"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
 </RelativeLayout>

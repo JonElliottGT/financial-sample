@@ -14,7 +14,6 @@
         android:id="@+id/homeTextView"
         android:editable="false"
         android:enabled="true"
-        android:layout_toLeftOf="@+id/homeTransfersButton"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
@@ -29,15 +28,6 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Transfers"
-        android:id="@+id/homeTransfersButton"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
-
     <ListView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -45,8 +35,8 @@
         android:layout_below="@+id/homeLogoutButton"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_above="@+id/homeTransfersButton"
-        android:choiceMode="singleChoice" />
+        android:choiceMode="singleChoice"
+        android:layout_above="@+id/homeAddAccountButton" />
 
     <Button
         style="?android:attr/buttonStyleSmall"
@@ -64,7 +54,6 @@
         android:text="Transaction"
         android:id="@+id/transactionButton"
         android:layout_alignParentBottom="true"
-        android:layout_toLeftOf="@+id/homeTransfersButton"
-        android:layout_toRightOf="@+id/homeAddAccountButton"
-        android:layout_toEndOf="@+id/homeAddAccountButton" />
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
 </RelativeLayout>

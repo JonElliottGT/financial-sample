@@ -21,43 +21,53 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-
+/**
+ * Unfinished
+ * TODO: DatePicker
+ */
 public class HistoryActivity extends ActionBarActivity {
 
-    private Intent accountActivity;
-    private String[] userAndAccount;
-    private DatabaseHandler db;
-    private Account currentAccount;
+    //ListView
+    private ListView listView;
 
+    //Unimplemented Feature
     private DatePicker datePicker;
 
-    private List<Transaction> transactionList;
-    private ListView listView;
+    //Getting/Retrieving the user and account
+    private String[] userAndAccount;
+
+    private DatabaseHandler db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_history);
 
+        //Initialize the DatabaseHandler
         db = new DatabaseHandler(this);
 
-        //get the current account from the extra user_account that was sent by UserHomeActivity
-        //This contains username and password
+        //Get the Current Account and User and All the Transactions of the User and Account
         Intent intent = getIntent();
         userAndAccount = intent.getExtras().getStringArray("user_account");
-        currentAccount = db.getAccountByUsernameAndAccountName(userAndAccount[0], userAndAccount[1]);
-        transactionList = db.getAllTransactionsForUserAndAccount(userAndAccount[0], userAndAccount[1]);
+        List<Transaction> transactionList = db.getAllTransactionsForUserAndAccount(userAndAccount[0], userAndAccount[1]);
+
+        //Set up the ListView and populate with all transactions
         listView = (ListView) findViewById(R.id.historyView);
+
         if(!transactionList.isEmpty()) {
+
             //Create the string list (used to populate the listview)
+            List<String> stringList = new ArrayList<>();
+
+            //Set up Date Format and Date
             SimpleDateFormat iso8601Format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             Date d = new Date();
-            List<String> stringList = new ArrayList<>();
+
             for (Transaction t : transactionList) {
                 try{
                     d = iso8601Format.parse(Long.toString(t.getDate()));
                 } catch(Exception e) {
-
+                    //Pray there is no exception (very unusual circumstances)
                 }
                 stringList.add("Memo: " + t.getTransactionName() + " " + t.getType() + " $" + t.getAmount() + " " + d);
             }
@@ -67,38 +77,11 @@ public class HistoryActivity extends ActionBarActivity {
                     android.R.layout.simple_list_item_1,
                     stringList);
 
-            //Set both the adapter (show the accounts).
-            //and set the onClickListener (when you click the account it goes to that account page)
+            //Set the adapter for the array
             listView.setAdapter(arrayAdapter);
         }
 
-
-
-        accountActivity = new Intent(this, AccountActivity.class);
-
-
     }
 
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_history, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
 }

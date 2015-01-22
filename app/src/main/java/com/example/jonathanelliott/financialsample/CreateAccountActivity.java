@@ -18,33 +18,47 @@ import com.crazy88.financialsample.support.User;
 
 public class CreateAccountActivity extends ActionBarActivity {
 
-    private String accountName;
-    private double accountBalance;
+    //Intents used to go to userHomeActivity and mainActivity
+    private Intent userHomeActivity;
+    private Intent mainActivity;
 
-    private EditText editTextAccountName;
-    private EditText editTextAccountBalance;
+    //Current user that is logged in
+    private User currentUser;
 
     private DatabaseHandler db;
-
-    private Intent userHomeActivity;
-
-    private User currentUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_account);
 
-        //setting up Intents
-        userHomeActivity = new Intent(this, UserHomeActivity.class);
-
-        //setting up edit text inputs
-        editTextAccountName = (EditText) findViewById(R.id.accountNameEditText);
-        editTextAccountBalance = (EditText) findViewById(R.id.accountBalanceEditText);
-
-        //database is used to add a new account to the database
+        //Initialize the DatabaseHandler
         db = new DatabaseHandler(this);
 
+        //Setting up Intents
+        //1. Initialize main activity (logout button)
+        mainActivity = new Intent(this, MainActivity.class);
+
+        //2. Intent - UserHomeActivity (used with Create Account Button)
+        userHomeActivity = new Intent(this, UserHomeActivity.class);
+
+        //Get the current user that is Logged into the system (via database query)
+        Intent intent = getIntent();
+        String username = intent.getExtras().getString("username");
+        currentUser = db.getUserByUsername(username);
+
+        //Listener - Logout Button (return to the main page)
+        findViewById(R.id.createAccountLogout).setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        mainActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        startActivity(mainActivity);
+                        finish();
+                    }
+                });
+
+        //Listener - Create Account Button (adds account to database)
         findViewById(R.id.createAccountButton).setOnClickListener(
                 new View.OnClickListener() {
                     @Override
@@ -55,29 +69,47 @@ public class CreateAccountActivity extends ActionBarActivity {
                     }
                 });
 
-        //This gets the current user in that is logged in (not the best way of doing it).
-        Intent intent = getIntent();
-        String username = intent.getExtras().getString("username");
-        currentUser = db.getUserByUsername(username);
-
     }
 
-    private void createAccount(){
+    /**
+     * Private Method
+     * Activates on Create Account Button
+     *
+     * Creates a new account from the user input and adds it to the database
+     * Returns to the main screen if a new account is created or notifies user of error
+     */
+    private void createAccount() {
 
-        accountName = editTextAccountName.getText().toString();
-        accountBalance = Double.parseDouble(editTextAccountBalance.getText().toString());
+        //Getting User Input
+        //Initialize the EditText for the created account's name
+        EditText editTextAccountName = (EditText) findViewById(R.id.accountNameEditText);
 
-        //very basic criteria
+        //Initialize the EditText for the created account's balance
+        EditText editTextAccountBalance = (EditText) findViewById(R.id.accountBalanceEditText);
+
+        //Get the account name (via editTextAccountName)
+        String accountName = editTextAccountName.getText().toString();
+
+        //Get the account balance (via editTextAccountBalance)
+        double accountBalance = Double.parseDouble(editTextAccountBalance.getText().toString());
+
         if (accountName.length() > 0) {
 
+            //Get the current user's username
             String username = currentUser.getUsername();
 
+            //Create the new account using the User input (account Name, account Balance) and the currentUser
             Account account = new Account(accountName, username, accountBalance);
-            if(db.checkAccount(username, accountName)) {
+
+            if (db.checkAccount(username, accountName)) {
+
+                //add the new account to the database
                 db.addAccount(account);
 
+                //Go back home
                 userHomeActivity.putExtra("username", username);
                 startActivity(userHomeActivity);
+
             } else {
                 Toast.makeText(getApplicationContext(), "Account Name already exists", Toast.LENGTH_SHORT).show();
             }
@@ -85,28 +117,5 @@ public class CreateAccountActivity extends ActionBarActivity {
             Toast.makeText(getApplicationContext(), "Cannot have empty boxes", Toast.LENGTH_SHORT).show();
         }
 
-    }
-
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_create_account, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
     }
 }

@@ -14,17 +14,18 @@ import android.content.Intent;
 
 public class RegisterActivity extends ActionBarActivity {
 
-    private String username;
-    private String password;
-    private String confirmPassword;
+    private Intent loginActivity;
 
     private EditText editTextUsername;
     private EditText editTextPassword;
     private EditText editTextConfirmPass;
 
+    private String username;
+    private String password;
+    private String confirmPassword;
+
     private DatabaseHandler db;
-    private Activity currentActivity;
-    private Intent loginActivity;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,9 +38,6 @@ public class RegisterActivity extends ActionBarActivity {
         //Set up the database handler (This is used to create a new user in the database)
         db = new DatabaseHandler(this);
 
-        //The current activity used for Toast (Popup kind of like an error message).
-        currentActivity = this;
-
         //initiate all of the edit texts so we can get the user input
         editTextUsername = (EditText) findViewById(R.id.registerUsernameEditText);
         editTextPassword = (EditText) findViewById(R.id.registerPasswordEditText);
@@ -51,36 +49,15 @@ public class RegisterActivity extends ActionBarActivity {
     }
 
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_register, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
-    //Way 1 of doing on click listener
-    //This is one way of doing an on click listener and is what is taught in CS 1331
+    //This is an alternative way of setting up a Click Listener
+    //This is the way they initially teach in CS 1331
+    //Private Inner Class that implements View.OnClickListener
     private class RegisterClickListener implements View.OnClickListener {
 
         @Override
         public void onClick(View arg0) {
 
-            //get the text our of the edit text boxes
+            //Get the user input from EditText's
             username = editTextUsername.getText().toString();
             password = editTextPassword.getText().toString();
             confirmPassword = editTextConfirmPass.getText().toString();

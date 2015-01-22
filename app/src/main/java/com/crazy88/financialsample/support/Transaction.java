@@ -7,10 +7,10 @@ public class Transaction {
 
     private long id;
     private long accountId;
-    private int userId;
+    private long userId;
     private String username;
     private String accountName;
-    private String transactionName;
+    private String memo;
     private long date;
     private double amount;
     private String type;
@@ -19,11 +19,21 @@ public class Transaction {
         this(0, 0, 0, "name", "username", "account", 0, 0.0, "Withdrawal");
     }
 
-    public Transaction(long id, long aid, int userId, String name, String username, String accountName, long date, double amount, String type) {
+    public Transaction(long id, long uid, long aid, String memo, long date, double amount, String type) {
+        this.id = id;
+        this.userId = uid;
+        this.accountId = aid;
+        this.memo = memo;
+        this.date = date;
+        this.amount = amount;
+        this.type = type;
+    }
+
+    public Transaction(long id, long aid, int userId, String memo, String username, String accountName, long date, double amount, String type) {
         this.id = id;
         this.accountId = aid;
         this.userId = userId;
-        this.transactionName = name;
+        this.memo = memo;
         this.username = username;
         this.accountName = accountName;
         this.date = date;
@@ -45,11 +55,11 @@ public class Transaction {
     public long getAccountId() { return this.accountId; }
     public void setAccountId(long aid) { this.accountId = aid; }
 
-    public int getUserId() { return this.userId; }
-    public void setUserId(int id) { this.userId = id; }
+    public long getUserId() { return this.userId; }
+    public void setUserId(long id) { this.userId = id; }
 
-    public String getTransactionName() { return this.transactionName; }
-    public void setTransactionName(String name) { this.transactionName = name; }
+    public String getTransactionName() { return this.memo; }
+    public void setTransactionName(String name) { this.memo = name; }
 
     public long getDate(){
         return date;
