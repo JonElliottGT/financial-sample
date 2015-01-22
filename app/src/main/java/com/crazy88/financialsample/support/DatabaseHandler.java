@@ -372,6 +372,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 transaction.setType(c.getString(c.getColumnIndex(KEY_TRANSACTION_TYPE)));
                 transactionList.add(transaction);
 
+                Log.d("HEY LISTEN ALL!", " "+c.getLong(c.getColumnIndex(KEY_DATE)));
+
             } while (c.moveToNext());
         }
 
@@ -383,14 +385,18 @@ public class DatabaseHandler extends SQLiteOpenHelper {
      * Get all transactions from a certain date
      * @param username
      * @param accountName
-     * @param date
+     * @param startDate
+     * @param endDate
      * @return
      */
-    public List<Transaction> getTransactionsByDate(String username, String accountName, String date) {
+    public List<Transaction> getTransactionsByDate(String username, String accountName, long startDate, long endDate) {
         List<Transaction> transactionList = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
         String select = "SELECT * FROM " + TABLE_TRANSACTIONS + " WHERE " + KEY_USERNAME + " = '" + username
-                + "' AND " + KEY_ACCOUNT_NAME + " = '" + accountName + "' AND " + KEY_DATE + " = '" + date + "'";
+                + "' AND " + KEY_ACCOUNT_NAME + " = '" + accountName + "' AND " + KEY_DATE + " BETWEEN " + startDate + " AND "
+                + endDate;
+
+        Log.d("HEY LISTEN!", select);
         Cursor c = db.rawQuery(select, null);
         if(c.moveToFirst()) {
             do {
@@ -406,6 +412,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 transactionList.add(transaction);
 
             } while (c.moveToNext());
+        } else {
+            Log.d("HEY LISTEN!", "I HATE YOU NAVI!");
         }
 
         db.close();
