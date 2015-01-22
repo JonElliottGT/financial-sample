@@ -70,7 +70,7 @@ public class UserHomeActivity extends ActionBarActivity {
             //Create the string list (used to populate the listview)
             List<String> stringList = new ArrayList<String>();
             for (Account a : accountList) {
-                stringList.add(a.getAccountName());
+                stringList.add(a.getAccountName() + " Balance: $" + a.getAccountBalance());
             }
             //Array Adapter adapts an arraylist for use in an Android list view
             ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(
@@ -101,6 +101,7 @@ public class UserHomeActivity extends ActionBarActivity {
 
                         mainActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         startActivity(mainActivity);
+                        finish();
 
                     }
                 });
@@ -117,7 +118,7 @@ public class UserHomeActivity extends ActionBarActivity {
                     }
                 });
 
-            //Transaction Button -> Transaction Activity
+        //Transaction Button -> Transaction Activity
         findViewById(R.id.transactionButton).setOnClickListener(
                 new View.OnClickListener() {
 
@@ -127,7 +128,7 @@ public class UserHomeActivity extends ActionBarActivity {
                             transactionActivity.putExtra("username", username);
                             startActivity(transactionActivity);
                         } else {
-                            Toast.makeText(getApplicationContext(), "You do not have any Accounts to make a transaction", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(), "You do not have any Accounts to make a Transaction", Toast.LENGTH_SHORT).show();
                         }
 
                     }

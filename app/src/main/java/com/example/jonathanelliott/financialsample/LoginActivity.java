@@ -37,6 +37,14 @@ public class LoginActivity extends ActionBarActivity {
                         attemptLogin();
                     }
                 });
+        findViewById(R.id.loginBackButton).setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        finish();
+                    }
+                }
+        );
     }
 
     /**

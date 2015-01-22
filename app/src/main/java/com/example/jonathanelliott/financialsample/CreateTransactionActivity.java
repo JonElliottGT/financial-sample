@@ -26,6 +26,7 @@ public class CreateTransactionActivity extends ActionBarActivity {
 
     //The User Home Activity
     private Intent userHomeActivity;
+    private Intent mainActivity;
 
     //account spinner holds all the accounts the user can transaction to/from
     private Spinner accountSpinner;
@@ -46,6 +47,7 @@ public class CreateTransactionActivity extends ActionBarActivity {
         //Setting up Intents
         //1. Initialize userHomeActivity (create transaction button)
         userHomeActivity = new Intent(this, UserHomeActivity.class);
+        mainActivity = new Intent(this, MainActivity.class);
 
         //Get the current user
         Intent intent = getIntent();
@@ -72,7 +74,19 @@ public class CreateTransactionActivity extends ActionBarActivity {
             accountSpinner.setAdapter(dataAdapter);
         }
 
-        //
+        //Logout Button
+        findViewById(R.id.transactionLogout).setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        mainActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        startActivity(mainActivity);
+                        finish();
+                    }
+                });
+
+        //Creates the Transaction
         findViewById(R.id.confirmButton).setOnClickListener(
                 new View.OnClickListener() {
                     @Override
@@ -80,8 +94,24 @@ public class CreateTransactionActivity extends ActionBarActivity {
 
                         confirm();
 
+                        //Go back the home page
+                        userHomeActivity.putExtra("username", username);
+                        startActivity(userHomeActivity);
+
                     }
                 });
+
+        //Goes back
+        findViewById(R.id.createTranBackButton).setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        finish();
+
+                    }
+                }
+        );
     }
 
     /**
@@ -141,10 +171,6 @@ public class CreateTransactionActivity extends ActionBarActivity {
                     db.updateAccountBalance(selectedAccount);
 
                     Toast.makeText(getApplicationContext(), "Transaction Complete", Toast.LENGTH_SHORT).show();
-
-                    //Go back the home page
-                    userHomeActivity.putExtra("username", username);
-                    startActivity(userHomeActivity);
 
 
                 } else {

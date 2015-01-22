@@ -46,6 +46,17 @@ public class RegisterActivity extends ActionBarActivity {
         //Set the listener for the register button
         findViewById(R.id.registerButton).setOnClickListener(new RegisterClickListener());
 
+        findViewById(R.id.regCancelButton).setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        //Send the userHomeActivity the username
+                        finish();
+
+                    }
+                }
+        );
+
     }
 
 

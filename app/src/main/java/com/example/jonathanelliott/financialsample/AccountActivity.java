@@ -58,7 +58,7 @@ public class AccountActivity extends ActionBarActivity {
         textViewId.setText(Long.toString(currentAccount.getId()));
 
         //Listener - Logout Button (return to main page)
-        findViewById(R.id.logOutBt).setOnClickListener(
+        findViewById(R.id.accountLogout).setOnClickListener(
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -80,6 +80,17 @@ public class AccountActivity extends ActionBarActivity {
                     }
                 }
         );
+        //Listener - goes back the userHomeActivity
+        findViewById(R.id.accBackButton).setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        finish();
+
+                    }
+                }
+        );
+
 
     }
 

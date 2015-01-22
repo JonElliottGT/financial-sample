@@ -1,6 +1,5 @@
 package com.example.jonathanelliott.financialsample;
 
-import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
@@ -20,15 +19,24 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 /**
- * Unfinished
+ * Note: The TimeZone of the Date can matter. Default is sometimes GMT rather than EST.
+ * I think it works. Needs more testing
  */
 public class HistoryActivity extends ActionBarActivity {
 
     //ListView
     private ListView listView;
+
+    //For Logout
+    private Intent mainActivity;
+
+    //Array Adapter and the array its adapting (for ListView)
+    private List<String> stringList;
+    private ArrayAdapter<String> arrayAdapter;
 
     //Getting/Retrieving the user and account
     private String[] userAndAccount;
@@ -36,20 +44,18 @@ public class HistoryActivity extends ActionBarActivity {
     private DatabaseHandler db;
 
 
-    private Activity currentActivity;
-
-    List<String> stringList;
-    ArrayAdapter<String> arrayAdapter;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_history);
-        currentActivity = this;
 
         //Initialize the DatabaseHandler
         db = new DatabaseHandler(this);
 
+        //Set up main Activity for logout
+        mainActivity = new Intent(this, MainActivity.class);
+
+        //Get the current user and account
         Intent intent = getIntent();
         userAndAccount = intent.getExtras().getStringArray("user_account");
 
@@ -61,6 +67,7 @@ public class HistoryActivity extends ActionBarActivity {
         //Set the adapter for the array
         listView.setAdapter(arrayAdapter);
 
+        //Listener - Start Date Button -> Opens DatePickerDialog and sets start text
         findViewById(R.id.startDateButton).setOnClickListener(
                 new View.OnClickListener() {
                     @Override
@@ -70,6 +77,7 @@ public class HistoryActivity extends ActionBarActivity {
                 }
         );
 
+        //Listener - End Date Button -> Opens DatePickerDiaglog and sets end text
         findViewById(R.id.endDateButton).setOnClickListener(
                 new View.OnClickListener() {
                     @Override
@@ -78,6 +86,8 @@ public class HistoryActivity extends ActionBarActivity {
                     }
                 }
         );
+
+        //Listener - Get Date Transaction -> Updates the View with new transaction between the chosen dates
         findViewById(R.id.getDateTransactionsButton).setOnClickListener(
                 new View.OnClickListener() {
                     @Override
@@ -87,7 +97,7 @@ public class HistoryActivity extends ActionBarActivity {
                 }
         );
 
-
+        //Listener - Get All Transactions -> Updates the View with all the transactions in the account
         findViewById(R.id.HistoryAllTransactionsButton).setOnClickListener(
                 new View.OnClickListener() {
                     @Override
@@ -96,18 +106,49 @@ public class HistoryActivity extends ActionBarActivity {
                     }
                 }
         );
+        //Listener - Logs out of the system
+        findViewById(R.id.historyLogoutButton).setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        mainActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        startActivity(mainActivity);
+                        finish();
+                    }
+                });
+
+        //Listener -
+        findViewById(R.id.historyBackButton).setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        finish();
+                    }
+                });
 
     }
 
+    /**
+     * Private Method
+     * Activates on All Transactions Button
+     *
+     * Gets all the transactions related to this account and sends the list to update Array Adapter Method
+     */
     private void allTransactions(){
-        //Get the Current Account and User and All the Transactions of the User and Account
 
+        //Get all transactions attached to this account
         List<Transaction> transactionList = db.getAllTransactionsForUserAndAccount(userAndAccount[0], userAndAccount[1]);
 
         updateArrayAdapter(transactionList);
 
     }
 
+    /**
+     * Private Method
+     * Activates on Start Date Button
+     *
+     * Opens a date picker dialog box and sets the startDate TextView to the chosen date
+     */
     private void startDate() {
 
         Calendar c = Calendar.getInstance();
@@ -121,8 +162,6 @@ public class HistoryActivity extends ActionBarActivity {
                     @Override
                     public void onDateSet(DatePicker view, int year,int monthOfYear, int dayOfMonth) {
 
-                        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-
                         TextView t = (TextView) findViewById(R.id.startDateTextView);
                         t.setText(year + "-" + (monthOfYear + 1) + "-" + dayOfMonth);
 
@@ -132,6 +171,12 @@ public class HistoryActivity extends ActionBarActivity {
 
     }
 
+    /**
+     * Private Method
+     * Activates on End Date Button
+     *
+     * Opens a date picker dialog box and sets the endDate TextView to the chosen date
+     */
     private void endDate(){
 
         Calendar c = Calendar.getInstance();
@@ -154,101 +199,90 @@ public class HistoryActivity extends ActionBarActivity {
 
     }
 
+    /**
+     * Private Method
+     * Activates on Get Date
+     *
+     * Using the startDate TextView and the endDate TextView, it retriveds all transactions between those two dates
+     */
     private void getTransactionByDates(){
 
-        //TRY 1
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-mm-dd");
 
+        //Get the two text views
         TextView startDateTextView = (TextView) findViewById(R.id.startDateTextView);
         TextView endDateTextView = (TextView) findViewById(R.id.endDateTextView);
 
-        String startDate = startDateTextView.getText().toString();
-        String endDate = endDateTextView.getText().toString();
+        //Get the strings inside the textviews
+        String startDateString = startDateTextView.getText().toString();
+        String endDateString = endDateTextView.getText().toString();
 
-        Date start1 = new Date();
-        Date end1 = new Date();
+        //Prepare Date class
+        Date startDate = new Date();
+        Date endDate = new Date();
 
-        long start2 = 0;
-        long end2 = 0;
+        //Initialize start
+        long startLong = 0;
+        long endLong = 0;
 
 
+        //Parse the String to get a Date using the SimpleDateFormat
         try {
-            start1 = sdf.parse(startDate);
-            end1 = sdf.parse(endDate);
+            startDate = sdf.parse(startDateString);
+            endDate = sdf.parse(endDateString);
         } catch(Exception e) {
-            Toast.makeText(getApplicationContext(), "Problem", Toast.LENGTH_SHORT).show();
-
+            Toast.makeText(getApplicationContext(), "Please Use Valid Dates", Toast.LENGTH_SHORT).show();
         }
 
-        start2 = start1.getTime();
-        end2 = end1.getTime();
+        //get the Time in long format (milliseconds since 1970)
+        startLong = startDate.getTime();
+        endLong = endDate.getTime();
 
+        if(!(endLong < startLong)) {
+            //Set up transactionList
+            List<Transaction> transactionList = new ArrayList<>();
+            transactionList = db.getAllTransactionsForUserAndAccount(userAndAccount[0], userAndAccount[1]);
 
-        //List<Transaction> transactionList = db.getTransactionsByDate(userAndAccount[0], userAndAccount[1], start2, end2);
-        //updateArrayAdapter(transactionList);
-
-        Toast.makeText(getApplicationContext(), start1.toString() + " " + end1.toString(), Toast.LENGTH_SHORT).show();
-        Toast.makeText(getApplicationContext(), start2 + " " + end2, Toast.LENGTH_LONG).show();
-
-        //TRY 2
-        List<Transaction> transactionList = new ArrayList<>();
-        transactionList.clear();
-        transactionList = db.getAllTransactionsForUserAndAccount(userAndAccount[0], userAndAccount[1]);
-
-        for(int i = 0; i < transactionList.size(); i++) {
-            Transaction t = transactionList.get(i);
-            long date = t.getDate();
-            long ssum = start2 - date; //less - great = -
-            long esum = date - end2; //less - great = -
-            boolean listen1 = ssum <= 0; //true if positive
-            boolean listen2 = esum <= 0; //true if negative
-            boolean hey = (date <= start2) || (date >= end2);
-            boolean hey2 = (start2 >= date) || (date >= end2);
-            Log.d("Hey Buddy Listen!", start2 + " " + t.getDate() + " " + end2 + " " + hey + " " + hey2);
-            Log.d("Hey Buddy Yo Listen!", ssum + " " + listen1 + " " + esum + " " + listen2);
-
-            boolean theTruth = (date >= end2) || (date <= start2);
-
-
-            boolean isBetween = ((start2 <= date) && (date <= end2));
-
-
-
-            //if(theTruth) {
-                if(!isBetween) {
-                    transactionList.remove(i);
-                    Log.d("Remove","remove" + !isBetween);
+            //Keep threads in balance with Iterator
+            Iterator<Transaction> iterator = transactionList.iterator();
+            while(iterator.hasNext()) {
+                Transaction t = iterator.next();
+                if(!((startLong <= t.getDate()) && (t.getDate() <= endLong))){
+                    iterator.remove();
+                }
             }
+
+            updateArrayAdapter(transactionList);
+        } else {
+            Toast.makeText(getApplicationContext(), "Please set the Start Date before the End Date", Toast.LENGTH_SHORT).show();
         }
-        updateArrayAdapter(transactionList);
 
     }
 
     private void updateArrayAdapter(List<Transaction> transactionList) {
 
+        //Clear the stringList notify the adapter data has been changed
         stringList.clear();
         arrayAdapter.notifyDataSetChanged();
+
         if(!transactionList.isEmpty()) {
 
             //Set up Date Format and Date
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            Date d = new Date();
 
+            //update the stringList
             for (Transaction t : transactionList) {
-                try{
-                    d = sdf.parse(Long.toString(t.getDate()));
-                    Toast.makeText(getApplicationContext(), " " + t.getDate(), Toast.LENGTH_LONG).show();
-                } catch(Exception e) {
-                    //Pray there is no exception (very unusual circumstances)
-                }
-                stringList.add("Memo: " + t.getTransactionName() + " " + t.getType() + " $" + t.getAmount() + " " + d + " Long: " + t.getDate());
+
+                Date d = new Date(t.getDate());
+
+                //Add a new String to stringList and notify the adapter data hase been changed
+                stringList.add("Memo: " + t.getTransactionName() + " - " + t.getType() + " for $" + t.getAmount() + " on " + d);
                 arrayAdapter.notifyDataSetChanged();
             }
 
-
-
         } else {
-            //Toast.makeText(getApplicationContext(), "Adapter = nothing", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "Sorry, there are no Transactions", Toast.LENGTH_SHORT).show();
+
         }
 
     }

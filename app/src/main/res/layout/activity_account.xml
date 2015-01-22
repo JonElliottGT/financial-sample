@@ -1,4 +1,4 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
@@ -14,9 +14,10 @@
         android:textSize="35sp"
         android:gravity="center"
         android:id="@+id/savingTitle"
-        android:layout_marginTop="60dp"
         android:layout_gravity="center_horizontal"
-        android:inputType="none" />
+        android:inputType="none"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -24,17 +25,20 @@
         android:text="Account Number:"
         android:textSize="20sp"
         android:id="@+id/accNoLabel"
-        android:layout_marginTop="150dp"
-        android:layout_marginLeft="25dp" />
+        android:layout_above="@+id/savingAmountInput"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="154dp" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Available:"
+        android:text="Available/Balance:"
         android:textSize="20sp"
         android:id="@+id/savingAmountInput"
-        android:layout_marginLeft="25dp"
-        android:layout_marginTop="250dp" />
+        android:layout_centerVertical="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -42,8 +46,8 @@
         android:text="000000001"
         android:textSize="20sp"
         android:id="@+id/accNoInput"
-        android:layout_marginTop="150dp"
-        android:layout_marginLeft="200dp" />
+        android:layout_alignTop="@+id/accNoLabel"
+        android:layout_centerHorizontal="true" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -51,8 +55,9 @@
         android:text="balance"
         android:textSize="20sp"
         android:id="@+id/amountInput"
-        android:layout_marginTop="250dp"
-        android:layout_marginLeft="200dp" />
+        android:layout_alignTop="@+id/savingAmountInput"
+        android:layout_alignLeft="@+id/accNoInput"
+        android:layout_alignStart="@+id/accNoInput" />
 
     <Button
         style="?android:attr/buttonStyleSmall"
@@ -62,7 +67,11 @@
         android:textSize="10sp"
         android:id="@+id/logOutBt"
         android:layout_gravity="right|top"
-        android:textStyle="normal" />
+        android:textStyle="normal"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="1037dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="32dp" />
 
     <Button
         android:layout_width="wrap_content"
@@ -71,5 +80,26 @@
         android:id="@+id/historyBt"
         android:layout_gravity="center_horizontal"
         android:background="#ac838383"
-        android:layout_marginTop="350dp" />
-</FrameLayout>
+        android:layout_below="@+id/amountInput"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="140dp" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Logout"
+        android:id="@+id/accountLogout"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Back"
+        android:id="@+id/accBackButton"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+</RelativeLayout>

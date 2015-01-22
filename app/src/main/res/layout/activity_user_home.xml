@@ -42,7 +42,7 @@
         style="?android:attr/buttonStyleSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Add Account"
+        android:text="Create New Account"
         android:id="@+id/homeAddAccountButton"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
@@ -51,7 +51,7 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Transaction"
+        android:text="Create New Transaction"
         android:id="@+id/transactionButton"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"

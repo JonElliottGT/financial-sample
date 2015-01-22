@@ -17,7 +17,7 @@ import android.database.sqlite.SQLiteOpenHelper;
  * Note: I try out several methods of getting the query in this, sorry if it is confusing
  *
  * !!!!!IMPORTANT NOTE!!!!!
- * THIS IS NOTE PROTECTED FROM SQL INJECTION (WARNING NOT PROTECTED FROM SQL INJECTION)
+ * THIS IS NOT PROTECTED FROM SQL INJECTION (WARNING NOT PROTECTED FROM SQL INJECTION)
  * !!!!!IMPORTANT NOTE!!!!!
  *
  * Tables:

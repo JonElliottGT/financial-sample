@@ -69,6 +69,15 @@ public class CreateAccountActivity extends ActionBarActivity {
                     }
                 });
 
+        findViewById(R.id.createAccountBackButton).setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        finish();
+                    }
+                }
+        );
+
     }
 
     /**
