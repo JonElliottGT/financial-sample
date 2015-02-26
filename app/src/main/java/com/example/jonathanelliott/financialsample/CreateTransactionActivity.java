@@ -133,48 +133,52 @@ public class CreateTransactionActivity extends ActionBarActivity {
         //make sure memo is > 0 (not really needed >= 0 is fine)
         if(memo.length() > 0) {
 
+            if(!(((EditText)findViewById(R.id.amountEditText)).getText().toString().isEmpty())) {
             //Get the user inputted amount
             Double amount = Double.parseDouble(((EditText)findViewById(R.id.amountEditText)).getText().toString());
 
-            //make sure amount isn't negative
-            if(amount > 0) {
+                //make sure amount isn't negative
+                if(amount > 0) {
 
-                //Get the selected Radio Button (Withdrawal or Deposit)
-                RadioGroup radioGroup = (RadioGroup) findViewById(R.id.radioGroup);
-                RadioButton selectRadio = (RadioButton) findViewById(radioGroup.getCheckedRadioButtonId());
-                String type = selectRadio.getText().toString();
+                    //Get the selected Radio Button (Withdrawal or Deposit)
+                    RadioGroup radioGroup = (RadioGroup) findViewById(R.id.radioGroup);
+                    RadioButton selectRadio = (RadioButton) findViewById(radioGroup.getCheckedRadioButtonId());
+                    String type = selectRadio.getText().toString();
 
-                //make sure withdrawal amount >= current account's balance
-                if(type.equals("Deposit") || (type.equals("Withdrawal") && selectedAccount.getAccountBalance() >= amount)) {
+                    //make sure withdrawal amount >= current account's balance
+                    if (type.equals("Deposit") || (type.equals("Withdrawal") && selectedAccount.getAccountBalance() >= amount)) {
 
-                    //Set up the accounts new balance (withdrawal cannot exceed current account balance)
-                    if(type.equals("Deposit")) {
-                        selectedAccount.deposit(amount);
-                    } else if(type.equals("Withdrawal")) {
-                        selectedAccount.withdrawal(amount);
+                        //Set up the accounts new balance (withdrawal cannot exceed current account balance)
+                        if (type.equals("Deposit")) {
+                            selectedAccount.deposit(amount);
+                        } else if (type.equals("Withdrawal")) {
+                            selectedAccount.withdrawal(amount);
+                        }
+
+                        //Set up date
+                        Date d = new Date();
+
+                        //Set up the transaction for the database
+                        Transaction t = new Transaction();
+                        t.setAccountName(selectedAccount.getAccountName());
+                        t.setUsername(username);
+                        t.setAmount(Double.parseDouble(((EditText) findViewById(R.id.amountEditText)).getText().toString()));
+                        t.setDate(d.getTime());
+                        t.setType(type);
+                        t.setTransactionName(((EditText) findViewById(R.id.wadMemoEditText)).getText().toString());
+
+                        //Call the database (add transaction, update account's balance)
+                        db.addTransaction(t);
+                        db.updateAccountBalance(selectedAccount);
+
+                        Toast.makeText(getApplicationContext(), "Transaction Complete", Toast.LENGTH_SHORT).show();
+
+
+                    } else {
+                        Toast.makeText(getApplicationContext(), "Insufficient Funds", Toast.LENGTH_SHORT).show();
                     }
-
-                    //Set up date
-                    Date d = new Date();
-
-                    //Set up the transaction for the database
-                    Transaction t = new Transaction();
-                    t.setAccountName(selectedAccount.getAccountName());
-                    t.setUsername(username);
-                    t.setAmount(Double.parseDouble(((EditText)findViewById(R.id.amountEditText)).getText().toString()));
-                    t.setDate(d.getTime());
-                    t.setType(type);
-                    t.setTransactionName(((EditText)findViewById(R.id.wadMemoEditText)).getText().toString());
-
-                    //Call the database (add transaction, update account's balance)
-                    db.addTransaction(t);
-                    db.updateAccountBalance(selectedAccount);
-
-                    Toast.makeText(getApplicationContext(), "Transaction Complete", Toast.LENGTH_SHORT).show();
-
-
-                } else {
-                    Toast.makeText(getApplicationContext(), "Insufficient Funds", Toast.LENGTH_SHORT).show();
+                }else {
+                    Toast.makeText(getApplicationContext(), "Please Input Amount", Toast.LENGTH_SHORT).show();
                 }
             } else {
                 Toast.makeText(getApplicationContext(), "Invalid Amount", Toast.LENGTH_SHORT).show();

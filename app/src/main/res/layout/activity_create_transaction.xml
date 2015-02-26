@@ -4,7 +4,8 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
-    tools:context="com.example.jonathanelliott.financialsample.CreateTransactionActivity">
+    tools:context="com.example.jonathanelliott.financialsample.CreateTransactionActivity"
+    android:background="#FFEB3B">
 
     <TextView
         android:layout_width="wrap_content"
@@ -12,8 +13,10 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Withdrawal / Deposit"
         android:id="@+id/textView8"
+        android:textSize="30dp"
         android:layout_below="@+id/transactionLogout"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:textColor="#ff000000" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -21,10 +24,11 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="Memo"
         android:id="@+id/textView9"
+        android:textColor="#ff000000"
+        android:textSize="25dp"
         android:layout_below="@+id/textView8"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="52dp" />
+        android:layout_alignLeft="@+id/wadMemoEditText"
+        android:layout_alignStart="@+id/wadMemoEditText" />
 
     <EditText
         android:layout_width="wrap_content"
@@ -34,7 +38,8 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentEnd="true"
+        android:textSize="25dp" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -44,14 +49,16 @@
         android:id="@+id/textView10"
         android:layout_below="@+id/wadMemoEditText"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:textSize="25dp"
+        android:textColor="#ff000000" />
 
     <Spinner
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/wadAccountSpinner"
-        android:spinnerMode="dropdown"
-        android:background="#ffd4fffb"
+        android:spinnerMode="dialog"
+        android:background="#ffffd533"
         android:layout_below="@+id/textView10"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
@@ -66,7 +73,9 @@
         android:id="@+id/textView11"
         android:layout_below="@+id/wadAccountSpinner"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:textSize="25dp"
+        android:textColor="#ff000000" />
 
     <EditText
         android:layout_width="wrap_content"
@@ -78,7 +87,8 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentEnd="true"
+        android:textSize="25dp" />
 
     <Button
         android:layout_width="wrap_content"
@@ -86,33 +96,42 @@
         android:text="Confirm"
         android:id="@+id/confirmButton"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:textSize="25dp" />
 
     <RadioGroup
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:orientation="horizontal"
+        android:orientation="vertical"
         android:id="@+id/radioGroup"
         android:layout_below="@+id/amountEditText"
         android:layout_above="@+id/confirmButton"
         android:layout_alignRight="@+id/confirmButton"
-        android:layout_alignEnd="@+id/confirmButton">
-
-        <RadioButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Withdrawal"
-            android:id="@+id/withrawalRadio"
-            android:checked="false" />
+        android:layout_alignEnd="@+id/confirmButton"
+        android:layout_alignParentEnd="false"
+        android:weightSum="1">
 
         <RadioButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Deposit"
             android:id="@+id/depositRadio"
-            android:checked="false" />
+            android:checked="false"
+            android:textSize="25dp"
+            android:layout_weight="0.36" />
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Withdrawal"
+            android:id="@+id/withrawalRadio"
+            android:checked="false"
+            android:textSize="25dp"
+            android:layout_weight="0.32" />
+
     </RadioGroup>
 
     <Button
@@ -122,7 +141,8 @@
         android:id="@+id/transactionLogout"
         android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentEnd="true"
+        android:textSize="20dp" />
 
     <Button
         android:layout_width="wrap_content"
@@ -131,6 +151,7 @@
         android:id="@+id/createTranBackButton"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:textSize="25dp" />
 
 </RelativeLayout>

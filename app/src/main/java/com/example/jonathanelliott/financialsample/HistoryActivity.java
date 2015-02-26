@@ -92,7 +92,8 @@ public class HistoryActivity extends ActionBarActivity {
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        getTransactionByDates();
+                        //getTransactionByDates();
+                        allTransactions();
                     }
                 }
         );
@@ -240,8 +241,9 @@ public class HistoryActivity extends ActionBarActivity {
 
         if(!(endLong < startLong)) {
             //Set up transactionList
-            List<Transaction> transactionList = new ArrayList<>();
-            transactionList = db.getAllTransactionsForUserAndAccount(userAndAccount[0], userAndAccount[1]);
+            List<Transaction> transactionList;
+            //transactionList = db.getAllTransactionsForUserAndAccount(userAndAccount[0], userAndAccount[1]);
+            transactionList = db.getTransactionsByDate(userAndAccount[0], userAndAccount[1], startLong, endLong);
 
             //Keep threads in balance with Iterator
             Iterator<Transaction> iterator = transactionList.iterator();
@@ -282,7 +284,6 @@ public class HistoryActivity extends ActionBarActivity {
 
         } else {
             Toast.makeText(getApplicationContext(), "Sorry, there are no Transactions", Toast.LENGTH_SHORT).show();
-
         }
 
     }

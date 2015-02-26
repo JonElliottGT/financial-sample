@@ -3,17 +3,18 @@
     android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin" tools:context=".MainActivity">
+    android:paddingBottom="@dimen/activity_vertical_margin" tools:context=".MainActivity"
+    android:background="#fff2e328">
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Login"
         android:id="@+id/mainLoginButton"
-        android:layout_marginBottom="148dp"
+        android:textSize="25dp"
         android:layout_alignParentBottom="true"
-        android:layout_toRightOf="@+id/welcomeTextView"
-        android:layout_toEndOf="@+id/welcomeTextView" />
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
 
     <Button
         style="?android:attr/buttonStyleSmall"
@@ -21,9 +22,10 @@
         android:layout_height="wrap_content"
         android:text="Register"
         android:id="@+id/mainRegisterButton"
-        android:layout_alignTop="@+id/mainLoginButton"
-        android:layout_toLeftOf="@+id/welcomeTextView"
-        android:layout_toStartOf="@+id/welcomeTextView" />
+        android:textSize="25dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -33,7 +35,9 @@
         android:id="@+id/welcomeTextView"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="89dp" />
+        android:layout_marginTop="89dp"
+        android:textSize="60dp"
+        android:textColor="#ff000000" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -41,7 +45,22 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Crazy 88&apos;s Financial Sample"
         android:id="@+id/textView13"
+        android:textSize="25dp"
         android:layout_below="@+id/welcomeTextView"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:textColor="#ff000000" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageView"
+        android:layout_below="@+id/textView13"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_above="@+id/mainLoginButton"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:src="@drawable/crazy_88" />
+
 
 </RelativeLayout>

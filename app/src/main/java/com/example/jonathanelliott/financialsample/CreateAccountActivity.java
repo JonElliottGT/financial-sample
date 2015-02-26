@@ -99,28 +99,33 @@ public class CreateAccountActivity extends ActionBarActivity {
         //Get the account name (via editTextAccountName)
         String accountName = editTextAccountName.getText().toString();
 
-        //Get the account balance (via editTextAccountBalance)
-        double accountBalance = Double.parseDouble(editTextAccountBalance.getText().toString());
+        if(!(editTextAccountBalance.getText().toString().isEmpty())) {
+            //Get the account balance (via editTextAccountBalance)
+            double accountBalance = Double.parseDouble(editTextAccountBalance.getText().toString());
 
-        if (accountName.length() > 0) {
+            if (accountName.length() > 0) {
 
-            //Get the current user's username
-            String username = currentUser.getUsername();
 
-            //Create the new account using the User input (account Name, account Balance) and the currentUser
-            Account account = new Account(accountName, username, accountBalance);
+                //Get the current user's username
+                String username = currentUser.getUsername();
 
-            if (db.checkAccount(username, accountName)) {
+                //Create the new account using the User input (account Name, account Balance) and the currentUser
+                Account account = new Account(accountName, username, accountBalance);
 
-                //add the new account to the database
-                db.addAccount(account);
+                if (db.checkAccount(username, accountName)) {
 
-                //Go back home
-                userHomeActivity.putExtra("username", username);
-                startActivity(userHomeActivity);
+                    //add the new account to the database
+                    db.addAccount(account);
 
+                    //Go back home
+                    userHomeActivity.putExtra("username", username);
+                    startActivity(userHomeActivity);
+
+                } else {
+                    Toast.makeText(getApplicationContext(), "Account Name already exists", Toast.LENGTH_SHORT).show();
+                }
             } else {
-                Toast.makeText(getApplicationContext(), "Account Name already exists", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Cannot have empty boxes", Toast.LENGTH_SHORT).show();
             }
         } else {
             Toast.makeText(getApplicationContext(), "Cannot have empty boxes", Toast.LENGTH_SHORT).show();
